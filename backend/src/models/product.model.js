@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { z } from "zod";
+import Joi from "joi";
 
 const productSchema = new mongoose.Schema(
   {
@@ -16,7 +16,7 @@ const productSchema = new mongoose.Schema(
       required: true,
     },
     pic: {
-      types: [String],
+      type: [String],
     },
   },
   { timestamps: true }
@@ -24,9 +24,28 @@ const productSchema = new mongoose.Schema(
 
 export const Product = mongoose.model("Product", productSchema);
 
-export const productValidationSchema = z.object({
-  name: z.string().nonempty("Name is required"),
-  price: z.number().positive("Price must be a positive number"),
-  disc: z.string().nonempty("Description is required"),
-  pic: z.array(z.string().url("Each picture must be a valid URL")).optional(),
-});
+export const productValidationSchema = (newUser) => {
+  const schema = Joi.object({
+    name: Joi.string().max(80).required().messages({
+      "any.required": "Name is required",
+      "string.empty": "Name cannot be empty",
+    }),
+    price: Joi.number().positive().required().messages({
+      "any.required": "Price is required",
+      "number.base": "Price must be a number",
+      "number.positive": "Price must be a positive number",
+    }),
+    disc: Joi.string().max(1000).required().messages({
+      "any.required": "Description is required",
+      "string.empty": "Description cannot be empty",
+    }),
+    pic: Joi.array()
+      .items(
+        Joi.string().uri().messages({
+          "string.uri": "Each picture must be a valid URL",
+        })
+      )
+      .optional(),
+  });
+  return schema.validate(newUser);
+};
