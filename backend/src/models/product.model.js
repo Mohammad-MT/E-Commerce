@@ -11,11 +11,16 @@ const productSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
-    disc: {
+    description: {
       type: String,
       required: true,
     },
-    pic: {
+    category: { type: String },
+    // category: { type: mongoose.Schema.Types.ObjectId, ref: "Category" },
+    stock: { type: Number, required: true },
+    ratings: { type: Number, default: 0 },
+    reviews: [{ type: mongoose.Schema.Types.ObjectId, ref: "Review" }],
+    images: {
       type: [String],
     },
   },
@@ -24,7 +29,7 @@ const productSchema = new mongoose.Schema(
 
 export const Product = mongoose.model("Product", productSchema);
 
-export const productValidationSchema = (newUser) => {
+export const productValidationSchema = (newProduct) => {
   const schema = Joi.object({
     name: Joi.string().max(80).required().messages({
       "any.required": "Name is required",
@@ -35,11 +40,20 @@ export const productValidationSchema = (newUser) => {
       "number.base": "Price must be a number",
       "number.positive": "Price must be a positive number",
     }),
-    disc: Joi.string().max(1000).required().messages({
+    description: Joi.string().max(1000).required().messages({
       "any.required": "Description is required",
       "string.empty": "Description cannot be empty",
     }),
-    pic: Joi.array()
+    category: Joi.string().optional().messages({
+      "string.base": "Category must be a valid ID",
+    }),
+    stock: Joi.number().integer().min(0).required().messages({
+      "any.required": "Stock is required",
+      "number.base": "Stock must be a number",
+      "number.integer": "Stock must be an integer",
+      "number.min": "Stock cannot be negative",
+    }),
+    images: Joi.array()
       .items(
         Joi.string().uri().messages({
           "string.uri": "Each picture must be a valid URL",
@@ -47,5 +61,5 @@ export const productValidationSchema = (newUser) => {
       )
       .optional(),
   });
-  return schema.validate(newUser);
+  return schema.validate(newProduct);
 };

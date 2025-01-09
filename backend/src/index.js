@@ -6,9 +6,9 @@ import helmet from "helmet";
 
 import connectToMongoDB from "./db/connectToMongoDB.js";
 
-import authRoute from "./routes/auth.route.js";
+import authRoute from "./routes/user.route.js";
 import productsRoute from "./routes/products.route.js";
-import usersRoute from "./routes/users.route.js";
+import orderRoutes from "./routes/order.route.js";
 
 const app = express();
 dotenv.config();
@@ -25,13 +25,9 @@ app.use(
 );
 app.use(helmet());
 
-app.use("/api/auth/", authRoute);
+app.use("/api/users/", authRoute);
 app.use("/api/products/", productsRoute);
-app.use("/api/users/", usersRoute);
-
-app.get("/", (req, res) => {
-  res.send("Test");
-});
+app.use("/api/orders", orderRoutes);
 
 app.listen(PORT, () => {
   connectToMongoDB();

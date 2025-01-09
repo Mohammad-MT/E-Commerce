@@ -1,10 +1,20 @@
 import express from "express";
-import { showAll, addNewProduct, removeProductById } from "../controller/product.controller.js";
+import {
+  showAll,
+  createProduct,
+  deleteProduct,
+  getProductById,
+  updateProduct,
+} from "../controller/product.controller.js";
+import protectRoute from "../middleware/protectRoute.js";
+import authorizeRole from "../middleware/authorizeRole.js";
 
 const router = express.Router();
 
 router.get("/", showAll);
-router.post("/addnew", addNewProduct);
-router.post("/remove/:id", removeProductById);
+router.get("/:id", getProductById);
+router.post("/", protectRoute, authorizeRole("admin"), createProduct);
+router.put("/:id", protectRoute, authorizeRole("admin"), updateProduct);
+router.delete("/:id", protectRoute, authorizeRole("admin"), deleteProduct);
 
 export default router;
