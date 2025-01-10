@@ -1,34 +1,40 @@
-import { Navigate, Route, Routes } from "react-router-dom";
 import "./App.css";
-import HomePage from "./pages/HomePage";
-import ProfilePage from "./pages/ProfilePage";
+import { Navigate, Route, Routes } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
+import { useEffect } from "react";
+import { Loader } from "lucide-react";
+
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
+
+import HomePage from "./pages/HomePage";
 import LogInPage from "./pages/LogInPage";
 import SignUpPage from "./pages/SignUpPage";
 import ProductPage from "./pages/ProductPage";
-import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
+import ShopCartPage from "./pages/ShopCartPage";
+import ProfilePage from "./pages/ProfilePage";
+import Page404 from "./pages/Page404";
+
 import { useAuthStore } from "./store/useAuthStore";
-import { useEffect } from "react";
-import { Loader } from "lucide-react";
 import { useProductStore } from "./store/useProductStore";
 import { useCartStore } from "./store/useCartStore";
-import ShopCartPage from "./pages/ShopCartPage";
-import Page404 from "./pages/Page404";
 import useThemeStore from "./store/useThemeStore";
 
 function App() {
   const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
-  const { setProducts } = useProductStore();
+  const { setProductsPaginated, page, limit } = useProductStore();
   const { checkCart } = useCartStore();
   const { theme, checkTheme } = useThemeStore();
 
   useEffect(() => {
     checkAuth();
-    setProducts();
     checkCart();
     checkTheme();
-  }, [checkAuth, setProducts, checkCart, checkTheme]);
+  }, [checkAuth, checkCart, checkTheme]);
+
+  useEffect(() => {
+    setProductsPaginated(page, limit);
+  }, [page, limit, setProductsPaginated]);
 
   if (isCheckingAuth && !authUser)
     return (

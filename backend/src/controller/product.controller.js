@@ -13,9 +13,40 @@ export const showAll = async (req, res) => {
   }
 };
 
+// Get Paginated Products
+export const getPaginatedProducts = async (req, res) => {
+  try {
+    // Extract page and limit from query parameters
+    const page = parseInt(req.query.page) || 1; // Default to page 1
+    const limit = parseInt(req.query.limit) || 10; // Default to 10 items per page
+
+    // Calculate the number of items to skip
+    const skip = (page - 1) * limit;
+
+    // Get total document count
+    const total = await Product.countDocuments();
+
+    // Fetch paginated data
+    const products = await Product.find().skip(skip).limit(limit);
+
+    // Response with pagination metadata
+    res.json({
+      page,
+      limit,
+      total,
+      totalPages: Math.ceil(total / limit),
+      data: products,
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error });
+  }
+};
+
 export const getProductById = async (req, res) => {
   try {
-    const product = await Product.findById(req.params.id);
+    const { id } = req.params;
+
+    const product = await Product.findById(id);
     if (!product) {
       return res.status(404).json({ message: "Product not found" });
     }

@@ -1,12 +1,14 @@
+import { Loader } from "lucide-react";
+
 import Card from "../components/Card";
 import Breadcrumbs from "../components/Breadcrumbs";
 import Pagination from "../components/Pagination";
+
 import { useProductStore } from "../store/useProductStore";
-import { Loader } from "lucide-react";
 // import SortOptions from "../components/SortOptions";
 
 const HomePage = () => {
-  const { products, getingProducts } = useProductStore();
+  const { products, loading } = useProductStore();
 
   return (
     <div className="min-h-[calc(100vh-24.2rem)]">
@@ -17,7 +19,7 @@ const HomePage = () => {
             <SortOptions />
           </div> */}
           <div className=" grid mx-auto grid-cols-1 gap-8 lg:grid-cols-3">
-            {getingProducts && (
+            {loading && (
               <div className="flex items-center justify-center h-screen">
                 <Loader className="size-10 animate-spin" />
               </div>
@@ -35,7 +37,7 @@ const HomePage = () => {
             ))}
           </div>
         </div>
-        {products.length > 8 && <Pagination />}
+        <Pagination />
       </div>
     </div>
   );

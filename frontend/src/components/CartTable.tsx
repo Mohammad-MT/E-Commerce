@@ -6,7 +6,6 @@ const CartTable = () => {
 
   return (
     <table className="table h-16">
-      {/* head */}
       <thead>
         <tr className=" border-b border-base-300">
           <th></th>
