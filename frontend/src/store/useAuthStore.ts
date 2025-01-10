@@ -1,7 +1,6 @@
 import toast from "react-hot-toast";
 import { create } from "zustand";
 import apiClient from "../services/apiClient";
-import axios from "axios";
 
 export type UserType = {
   _id: string;
@@ -39,7 +38,7 @@ export const useAuthStore = create<AuthState>((set) => ({
 
   checkAuth: async () => {
     try {
-      const res = await apiClient.get("/auth/check");
+      const res = await apiClient.get("/users/check");
 
       if (res) set({ authUser: res.data });
       else set({ authUser: null });
@@ -54,7 +53,7 @@ export const useAuthStore = create<AuthState>((set) => ({
   signup: async (data) => {
     set({ isSigningUp: true });
     try {
-      const res = await apiClient.post("/auth/signup", data);
+      const res = await apiClient.post("/users/signup", data);
 
       set({ authUser: res.data });
       toast.success("Account created successfully");
@@ -69,10 +68,7 @@ export const useAuthStore = create<AuthState>((set) => ({
   login: async (data) => {
     set({ isLoggingIn: true });
     try {
-      const res = await axios.post(
-        "http://localhost:3000/api/auth/login",
-        data
-      );
+      const res = await apiClient.post("/users/login", data);
       set({ authUser: res.data });
       toast.success("Logged in successfully");
     } catch (error: any) {
@@ -85,7 +81,7 @@ export const useAuthStore = create<AuthState>((set) => ({
 
   logout: async () => {
     try {
-      await apiClient.post("/auth/logout");
+      await apiClient.post("/users/logout");
       set({ authUser: null });
       toast.success("Logged out successfully");
     } catch (error: any) {

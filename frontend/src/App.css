@@ -1,0 +1,19 @@
+#nav-selector:hover #nav-selector-underline {
+  width: 100%;
+}
+
+#card:hover #showBtnCart {
+  display: block;
+  animation: showBtnAnimation 0.5s forwards;
+}
+
+
+
+@keyframes showBtnAnimation {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
