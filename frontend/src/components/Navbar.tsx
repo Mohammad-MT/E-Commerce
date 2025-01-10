@@ -6,15 +6,18 @@ import { useAuthStore } from "../store/useAuthStore";
 
 import noProfile from "../assets/noProfile.png";
 import { useCartStore } from "../store/useCartStore";
+import useThemeStore from "../store/useThemeStore";
 
 const Navbar = () => {
   const { authUser, logout } = useAuthStore();
   const { itemCount } = useCartStore();
   let cartCount = itemCount();
 
+  const { changeTheme, theme } = useThemeStore();
+
   return (
     <div className="max-w-6xl mx-auto  pt-1">
-      <div className=" navbar flex justify-between bg-base-200 rounded-xl border shadow-xl z-20 px-3 ">
+      <div className=" navbar flex justify-between bg-base-200 rounded-xl border border-base-300 shadow-xl z-20 px-3 ">
         <Link to={"/"}>
           <div className="flex hover:cursor-pointer">
             <div>
@@ -120,8 +123,19 @@ const Navbar = () => {
               </div>
               <ul
                 tabIndex={0}
-                className="dropdown-content menu bg-base-100 rounded-box z-[1] w-40 p-2 mt-2 shadow"
+                className="dropdown-content menu bg-base-100 rounded-box z-[1] w-48 p-2 mt-2 shadow"
               >
+                <li>
+                  <label className="label cursor-pointer ">
+                    <span className="label-text">Dark Mode</span>
+                    <input
+                      type="checkbox"
+                      className="toggle"
+                      onChange={changeTheme}
+                      checked={theme}
+                    />
+                  </label>
+                </li>
                 <li>
                   <Link to={"/profile"}>Edit Profile</Link>
                 </li>
@@ -129,10 +143,13 @@ const Navbar = () => {
                   <a>History</a>
                 </li>
                 <li>
-                  <button onClick={logout} className=" hover:text-red-600">
+                  <label
+                    className="label cursor-pointer hover:text-red-600 "
+                    onClick={logout}
+                  >
                     <span>Log out</span>
-                    <LogOut className="ms-2" />
-                  </button>
+                    <LogOut />
+                  </label>
                 </li>
               </ul>
             </div>

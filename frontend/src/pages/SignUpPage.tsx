@@ -48,7 +48,7 @@ function SignUpPage() {
     <div className="max-w-5xl min-h-[calc(100vh-24.2rem)]  my-auto mx-auto">
       <Breadcrumbs newDirectory="Signup" />
       <div className=" flex justify-center items-center my-auto ">
-        <div className="flex flex-col w-1/2 border border-gray-300 rounded-xl shadow-lg p-8 ">
+        <div className="flex flex-col w-1/2 border border-base-300 rounded-xl shadow-lg p-8 ">
           <h1 className="text-3xl font-bold  text-center mb-5">
             Sign up to E-commerce
           </h1>

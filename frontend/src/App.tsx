@@ -15,17 +15,20 @@ import { useProductStore } from "./store/useProductStore";
 import { useCartStore } from "./store/useCartStore";
 import ShopCartPage from "./pages/ShopCartPage";
 import Page404 from "./pages/Page404";
+import useThemeStore from "./store/useThemeStore";
 
 function App() {
   const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
   const { setProducts } = useProductStore();
   const { checkCart } = useCartStore();
+  const { theme, checkTheme } = useThemeStore();
 
   useEffect(() => {
     checkAuth();
     setProducts();
     checkCart();
-  }, [checkAuth, setProducts, checkCart]);
+    checkTheme();
+  }, [checkAuth, setProducts, checkCart, checkTheme]);
 
   if (isCheckingAuth && !authUser)
     return (
@@ -35,12 +38,12 @@ function App() {
     );
 
   return (
-    <div data-theme={"light"} className="min-h-screen">
+    <div data-theme={theme ? "dark" : "light"} className="min-h-screen">
       <Navbar />
       <Routes>
         <Route>
           <Route index element={<HomePage />} />
-          <Route path="/product" element={<ProductPage />} />
+          <Route path="/products/:id" element={<ProductPage />} />
           <Route path="/cart" element={<ShopCartPage />} />
         </Route>
         <Route

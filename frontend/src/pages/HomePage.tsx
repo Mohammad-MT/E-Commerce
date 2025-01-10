@@ -11,7 +11,7 @@ const HomePage = () => {
   return (
     <div className="min-h-[calc(100vh-24.2rem)]">
       <div className="flex flex-col items-center  max-w-5xl h-full mx-auto ">
-        <Breadcrumbs newDirectory="AllProducts" />
+        <Breadcrumbs newDirectory="Shop" />
         <div className="flex w-full">
           {/* <div className=" border-r ">
             <SortOptions />

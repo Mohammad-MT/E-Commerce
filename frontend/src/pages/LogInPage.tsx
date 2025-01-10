@@ -47,7 +47,7 @@ const LogInPage = () => {
       <Breadcrumbs newDirectory="Login" />
 
       <div className="flex justify-center items-center ">
-        <div className="flex flex-col w-1/2 border border-gray-300 rounded-xl shadow-lg p-8  ">
+        <div className="flex flex-col w-1/2 border border-base-300 rounded-xl shadow-lg p-8  ">
           <h1 className="text-3xl font-bold  text-center mb-5">
             Sign in to E-commerce
           </h1>

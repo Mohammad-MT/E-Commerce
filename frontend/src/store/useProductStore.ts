@@ -14,6 +14,7 @@ type ProductState = {
   products: Item[];
   getingProducts: boolean;
   setProducts: () => void;
+  selectedProduct: (id: string) => any;
 };
 
 export const useProductStore = create<ProductState>((set) => ({
@@ -31,5 +32,9 @@ export const useProductStore = create<ProductState>((set) => ({
     } finally {
       set({ getingProducts: false });
     }
+  },
+  selectedProduct: async (id) => {
+    const res = await apiClient.get(`/products/${id}`);
+    return res.data;
   },
 }));

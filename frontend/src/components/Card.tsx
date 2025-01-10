@@ -8,7 +8,7 @@ const Card = ({ name, description, price, images, _id, stock }: Item) => {
   return (
     <div>
       <div
-        className="card card-compact bg-base-100 w-80 shadow-md transition-all duration-300 hover:cursor-pointer hover:shadow-xl"
+        className="card card-compact border border-base-300 bg-base-100 w-80 shadow-md transition-all duration-300 hover:cursor-pointer hover:shadow-xl"
         id="card"
       >
         <figure className="relative">
@@ -18,7 +18,7 @@ const Card = ({ name, description, price, images, _id, stock }: Item) => {
             <img src={images[0]} alt="img" />
           )}
           <button
-            className="btn w-1/2 absolute bottom-2  hidden"
+            className="btn opacity-90 border border-base-300 w-1/2 absolute bottom-2  hidden"
             id="showBtnCart"
             onClick={() =>
               addCart({ _id, name, price, description, images, stock })
@@ -33,7 +33,7 @@ const Card = ({ name, description, price, images, _id, stock }: Item) => {
             <Star size={24} />
           </button>
         </figure>
-        <Link to={"/product"}>
+        <Link to={`/products/${_id}`}>
           <div className="card-body ">
             <h2 className="card-title">{name}</h2>
             <p>{description}</p>

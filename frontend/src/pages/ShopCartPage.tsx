@@ -7,7 +7,7 @@ const ShopCartPage = () => {
     <div className="min-h-[calc(100vh-24.2rem)] ">
       <div className="flex flex-col items-center  max-w-5xl h-full mx-auto ">
         <Breadcrumbs newDirectory="Cart" />
-        <div className="w-full flex justify-between flex-col lg:flex-row ">
+        <div className= " w-fit flex justify-between flex-col lg:flex-row ">
           <CartTable />
           <CheckOut />
         </div>
