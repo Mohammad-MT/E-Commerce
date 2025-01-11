@@ -1,23 +1,24 @@
-import { ChevronDown, Heart, LogOut, Search, ShoppingCart } from "lucide-react";
+import { ChevronDown, Heart, Search, ShoppingCart, X } from "lucide-react";
 
 import EcommerceLogo from "../assets/Shopping.png";
 import { Link } from "react-router-dom";
 import { useAuthStore } from "../store/useAuthStore";
 
-import noProfile from "../assets/noProfile.png";
 import { useCartStore } from "../store/useCartStore";
-import useThemeStore from "../store/useThemeStore";
+import { useState } from "react";
+import UserProfileDropdown from "./UserProfileDropdown";
+import DrawerSidebar from "./DrawerSidebar";
 
 const Navbar = () => {
-  const { authUser, logout } = useAuthStore();
+  const { authUser } = useAuthStore();
   const { itemCount } = useCartStore();
   let cartCount = itemCount();
 
-  const { changeTheme, theme } = useThemeStore();
+  const [showSearch, setShowSearch] = useState(false);
 
   return (
-    <div className="max-w-6xl mx-auto  pt-1">
-      <div className=" navbar flex justify-between bg-base-200 rounded-xl border border-base-300 shadow-xl z-20 px-3 ">
+    <div className="  flex justify-center  pt-1 mx-1 ">
+      <div className=" navbar max-w-6xl flex justify-between bg-base-200 rounded-xl border border-base-300 shadow-xl z-20 px-3  ">
         <Link to={"/"}>
           <div className="flex hover:cursor-pointer">
             <div>
@@ -26,7 +27,7 @@ const Navbar = () => {
             <span className=" text-nowrap text-lg font-bold">E-Commerce</span>
           </div>
         </Link>
-        <div className="flex justify-center items-center gap-6">
+        <div className=" justify-center items-center hidden md:flex gap-6">
           <Link to={"/"}>
             <div
               className=" flex flex-nowrap h-12  relative items-center hover:text-pink-700 hover:cursor-pointer"
@@ -46,7 +47,7 @@ const Navbar = () => {
               tabIndex={0}
               role="button"
             >
-              <div>Shop</div>
+              <div>Categories </div>
               <ChevronDown size={16} />
               <div
                 className=" absolute w-0 h-1 top-[50px] rounded-xl  bg-pink-700 transition-all duration-500 "
@@ -55,7 +56,7 @@ const Navbar = () => {
             </div>
             <ul
               tabIndex={0}
-              className="dropdown-content menu bg-base-100 rounded-box z-[1] w-96 h-52 p-2 mt-2  shadow   "
+              className="dropdown-content menu bg-base-200 border border-base-300 rounded-box z-[1] w-96 h-52 p-2 mt-2  shadow   "
             >
               <div className="grid-cols-3 grid">
                 <li>
@@ -70,31 +71,50 @@ const Navbar = () => {
               </div>
             </ul>
           </div>
-          <div
-            className="flex items-center h-12 relative hover:text-pink-700 hover:cursor-pointer"
-            id="nav-selector"
-          >
-            <div>About</div>
+          <Link to={"/about"}>
             <div
-              className=" absolute w-0 h-1 top-[50px] rounded-xl  bg-pink-700 transition-all duration-500 "
-              id="nav-selector-underline"
-            ></div>
-          </div>
-          <div
-            className="flex items-center h-12 relative hover:text-pink-700 hover:cursor-pointer"
-            id="nav-selector"
-          >
-            <div>Contact</div>
+              className="flex items-center h-12 relative hover:text-pink-700 hover:cursor-pointer"
+              id="nav-selector"
+            >
+              <div>About</div>
+              <div
+                className=" absolute w-0 h-1 top-[50px] rounded-xl  bg-pink-700 transition-all duration-500 "
+                id="nav-selector-underline"
+              ></div>
+            </div>
+          </Link>
+          <Link to={"/contact"}>
             <div
-              className=" absolute w-0 h-1 top-[50px] rounded-xl  bg-pink-700 transition-all duration-500 "
-              id="nav-selector-underline"
-            ></div>
-          </div>
+              className="flex items-center h-12 relative hover:text-pink-700 hover:cursor-pointer"
+              id="nav-selector"
+            >
+              <div>Contact</div>
+              <div
+                className=" absolute w-0 h-1 top-[50px] rounded-xl  bg-pink-700 transition-all duration-500 "
+                id="nav-selector-underline"
+              ></div>
+            </div>
+          </Link>
         </div>
-        <div className="flex justify-center items-center gap-3">
-          <span className=" hover:text-pink-700 hover:cursor-pointer">
-            <Search />
+        <div className="justify-center items-center gap-3 hidden sm:flex">
+          <span
+            className=" hover:text-pink-700 hover:cursor-pointer"
+            onClick={() => setShowSearch(!showSearch)}
+          >
+            {!showSearch && <Search />}
           </span>
+          {showSearch ? (
+            <label className="input input-bordered rounded-3xl flex items-center gap-1">
+              <input type="text" className="grow" placeholder="Search" />
+              <Search className=" hover:cursor-pointer hover:text-blue-400" />
+              <X
+                className=" hover:cursor-pointer hover:text-red-600"
+                onClick={() => setShowSearch(!showSearch)}
+              />
+            </label>
+          ) : (
+            ""
+          )}
           <span className=" hover:text-pink-700 hover:cursor-pointer">
             <Heart />
           </span>
@@ -109,50 +129,7 @@ const Navbar = () => {
             </span>
           </Link>
           {authUser ? (
-            <div className="dropdown dropdown-bottom dropdown-end ms-1">
-              <div tabIndex={0} role="button" className="btn ">
-                <div className="avatar">
-                  <div className="w-11 rounded-full ring-pink-700 ring-offset-base-100 ring ring-offset-2">
-                    <img
-                      src={
-                        authUser.profilePic ? authUser.profilePic : noProfile
-                      }
-                    />
-                  </div>
-                </div>
-              </div>
-              <ul
-                tabIndex={0}
-                className="dropdown-content menu bg-base-100 rounded-box z-[1] w-48 p-2 mt-2 shadow"
-              >
-                <li>
-                  <label className="label cursor-pointer ">
-                    <span className="label-text">Dark Mode</span>
-                    <input
-                      type="checkbox"
-                      className="toggle"
-                      onChange={changeTheme}
-                      checked={theme}
-                    />
-                  </label>
-                </li>
-                <li>
-                  <Link to={"/profile"}>Edit Profile</Link>
-                </li>
-                <li>
-                  <a>History</a>
-                </li>
-                <li>
-                  <label
-                    className="label cursor-pointer hover:text-red-600 "
-                    onClick={logout}
-                  >
-                    <span>Log out</span>
-                    <LogOut />
-                  </label>
-                </li>
-              </ul>
-            </div>
+            <UserProfileDropdown />
           ) : (
             <Link
               to={"/login"}
@@ -161,7 +138,9 @@ const Navbar = () => {
               Login
             </Link>
           )}
-          {/* <User /> */}
+        </div>
+        <div className="flex sm:hidden ">
+          <DrawerSidebar />
         </div>
       </div>
     </div>

@@ -43,13 +43,13 @@ const LogInPage = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
-    <div className="max-w-5xl min-h-[calc(100vh-24.2rem)]  my-auto mx-auto">
+    <div className="max-w-5xl min-h-[calc(100vh-24.2rem)]  my-auto mx-auto px-5">
       <Breadcrumbs newDirectory="Login" />
 
       <div className="flex justify-center items-center ">
-        <div className="flex flex-col w-1/2 border border-base-300 rounded-xl shadow-lg p-8  ">
-          <h1 className="text-3xl font-bold  text-center mb-5">
-            Sign in to E-commerce
+        <div className="flex flex-col w-fit border border-base-300 rounded-xl shadow-lg p-8  ">
+          <h1 className="text-2xl font-bold text-center mb-5 px-8">
+            Sign in to E-Commerce
           </h1>
           <form onSubmit={handleSubmit(login)}>
             <div className=" form-control">
@@ -111,7 +111,7 @@ const LogInPage = () => {
             </button>
             {/* <div className="divider">OR</div> */}
           </form>
-          <div className="text-center mt-4">
+          <div className="text-center mt-4 text-sm">
             <p className="text-base-content/60">
               Don&apos;t have an account?{" "}
               <Link to="/signup" className="link link-primary">

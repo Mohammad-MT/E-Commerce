@@ -2,6 +2,7 @@ import { Star } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Item } from "../store/useProductStore";
 import { useCartStore } from "../store/useCartStore";
+import toast from "react-hot-toast";
 
 const Card = ({ name, description, price, images, _id, stock }: Item) => {
   const { addCart } = useCartStore();
@@ -20,9 +21,10 @@ const Card = ({ name, description, price, images, _id, stock }: Item) => {
           <button
             className="btn opacity-90 border border-base-300 w-1/2 absolute bottom-2  hidden"
             id="showBtnCart"
-            onClick={() =>
-              addCart({ _id, name, price, description, images, stock })
-            }
+            onClick={() => {
+              addCart({ _id, name, price, description, images, stock });
+              toast.success("New Item Added to ShopCart");
+            }}
           >
             Add to Cart
           </button>

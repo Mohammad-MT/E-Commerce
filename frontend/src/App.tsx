@@ -12,7 +12,8 @@ import LogInPage from "./pages/LogInPage";
 import SignUpPage from "./pages/SignUpPage";
 import ProductPage from "./pages/ProductPage";
 import ShopCartPage from "./pages/ShopCartPage";
-import ProfilePage from "./pages/ProfilePage";
+import ProfilePage from "./pages/ProfilePage"; //soon
+import HistoryPage from "./pages/HistoryPage"; //soon
 import Page404 from "./pages/Page404";
 
 import { useAuthStore } from "./store/useAuthStore";
@@ -51,6 +52,14 @@ function App() {
           <Route index element={<HomePage />} />
           <Route path="/products/:id" element={<ProductPage />} />
           <Route path="/cart" element={<ShopCartPage />} />
+          <Route
+            path="/profile"
+            element={authUser ? <ProfilePage /> : <Navigate to={"/login"} />}
+          />
+          <Route
+            path="/history"
+            element={authUser ? <HistoryPage /> : <Navigate to={"/login"} />}
+          />
         </Route>
         <Route
           path="/login"
@@ -60,10 +69,11 @@ function App() {
           path="/signup"
           element={authUser ? <Navigate to={"/"} /> : <SignUpPage />}
         />
-        <Route
-          path="/profile"
-          element={authUser ? <ProfilePage /> : <Navigate to={"/login"} />}
-        />
+        {/* // soon */}
+        <Route path="/about" element={<Page404 />} />
+        {/* // soon */}
+        <Route path="/contact" element={<Page404 />} />
+
         <Route path="*" element={<Page404 />} />
       </Routes>
       <Footer />

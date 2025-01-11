@@ -8,6 +8,8 @@ export type UserType = {
   fullname: string;
   username: string;
   profilePic: string;
+  phone?: number;
+  role?: string;
   createdAt?: string;
   updatedAt?: string;
 };
@@ -17,6 +19,7 @@ type AuthState = {
   isSigningUp: boolean;
   isLoggingIn: boolean;
   isCheckingAuth: boolean;
+  isUpdatingProfile: boolean;
 
   checkAuth: () => void;
   signup: (data: {
@@ -27,14 +30,15 @@ type AuthState = {
   }) => void;
   login: (data: { username: string; password: string }) => void;
   logout: () => void;
+  updateProfile: (profilePicData: { profilePic: string }) => void;
 };
 
 export const useAuthStore = create<AuthState>((set) => ({
   authUser: null,
   isSigningUp: false,
   isLoggingIn: false,
-  isUpdatingProfile: false,
   isCheckingAuth: true,
+  isUpdatingProfile: false,
 
   checkAuth: async () => {
     try {
@@ -87,6 +91,19 @@ export const useAuthStore = create<AuthState>((set) => ({
     } catch (error: any) {
       console.log(error.response.data.message);
       toast.error(error.response.data.message);
+    }
+  },
+  updateProfile: async (data) => {
+    set({ isUpdatingProfile: true });
+    try {
+      const res = await apiClient.put("/users/updateProfileImg", data);
+      set({ authUser: res.data });
+      toast.success("Profile updated successfully");
+    } catch (error: any) {
+      toast.error(error.response.data.message);
+      toast.error(error.response.data.message);
+    } finally {
+      set({ isUpdatingProfile: false });
     }
   },
 }));

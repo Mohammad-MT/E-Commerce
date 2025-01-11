@@ -11,21 +11,21 @@ const CheckOut = () => {
         <h2>Total:</h2>
         <h2>${TotalPrice}</h2>
       </div>
+      <div className="flex justify-between ">
+        <p>Delivery Charge:</p>
+        <p> +5.00$</p>
+      </div>
       <div className=" divider"></div>
       <div className="">
-        <p>Enter Discount Code</p>
         <div className=" join my-2">
           <input
             type="text"
             className=" input border border-base-300 rounded-e-none rounded-s-3xl "
+            placeholder="Enter Discount Code"
           />
           <button className="btn btn-neutral  bg-black border border-base-300 rounded-s-none rounded-e-3xl">
             Apply
           </button>
-        </div>
-        <div className="flex justify-between">
-          <p>Delivery Charge</p>
-          <p>5.00$</p>
         </div>
       </div>
       <div className=" divider"></div>

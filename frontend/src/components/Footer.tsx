@@ -39,7 +39,7 @@ const Footer = () => {
             </div> */}
             <div className="join">
               <input
-                className="input input-bordered join-item"
+                className="input input-bordered join-item w-full"
                 placeholder="Email"
               />
               <button className="btn btn-neutral bg-black text-white join-item rounded-r-full">

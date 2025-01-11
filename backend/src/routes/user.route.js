@@ -4,6 +4,7 @@ import {
   logout,
   signup,
   checkAuth,
+  updateProfile,
 } from "../controller/user.controller.js";
 import protectRoute from "../middleware/protectRoute.js";
 
@@ -14,5 +15,7 @@ route.post("/login", login);
 route.post("/logout", logout);
 
 route.get("/check", protectRoute, checkAuth);
+
+route.put("/updateProfileImg", protectRoute, updateProfile);
 
 export default route;
