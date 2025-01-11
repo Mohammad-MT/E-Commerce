@@ -45,12 +45,12 @@ function SignUpPage() {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
-    <div className="max-w-5xl min-h-[calc(100vh-24.2rem)]  my-auto mx-auto">
+    <div className="max-w-5xl min-h-[calc(100vh-24.2rem)]  my-auto mx-auto px">
       <Breadcrumbs newDirectory="Signup" />
       <div className=" flex justify-center items-center my-auto ">
-        <div className="flex flex-col w-1/2 border border-base-300 rounded-xl shadow-lg p-8 ">
-          <h1 className="text-3xl font-bold  text-center mb-5">
-            Sign up to E-commerce
+        <div className="flex flex-col w-fit border border-base-300 rounded-xl shadow-lg p-8 ">
+          <h1 className="text-2xl font-bold  text-center mb-5 px-8">
+            Sign up to E-Commerce
           </h1>
           <form className=" " onSubmit={handleSubmit(signup)}>
             <div className=" form-control">
@@ -143,7 +143,7 @@ function SignUpPage() {
             </button>
             {/* <div className="divider">OR</div> */}
           </form>
-          <div className="text-center mt-4">
+          <div className="text-center mt-4 text-sm">
             <p className="text-base-content/60">
               Already have account?{" "}
               <Link to="/login" className="link link-primary">
