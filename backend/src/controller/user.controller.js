@@ -121,9 +121,14 @@ export const checkAuth = (req, res) => {
 
 export const updateProfile = async (req, res) => {
   try {
-    const { profilePic } = req.body;
     const userId = req.user._id;
 
+    //** multer way dosen't work with read only filesystem hosts **//
+    // const imagePath = `${req.protocol}://${req.get("host")}/uploads/${
+    //   req.file.filename
+    // }`;
+
+    const { profilePic } = req.body;
     if (!profilePic) {
       return res.status(400).json({ message: "Profile pic is required" });
     }

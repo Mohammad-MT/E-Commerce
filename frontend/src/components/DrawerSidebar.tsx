@@ -66,24 +66,16 @@ const DrawerSidebar = () => {
             </label>
           </div>
           <li>
-            <Link to={"/cart"}>
-              <a>ShopCart</a>
-            </Link>
+            <Link to={"/cart"}>ShopCart</Link>
           </li>
           <li>
-            <Link to={"/favorite"}>
-              <a>Favorite</a>
-            </Link>
+            <Link to={"/favorite"}>Favorite</Link>
           </li>
           <li>
-            <Link to={"/about"}>
-              <a>About</a>
-            </Link>
+            <Link to={"/about"}>About</Link>
           </li>
           <li>
-            <Link to={"/contact"}>
-              <a>Contact</a>
-            </Link>
+            <Link to={"/contact"}>Contact</Link>
           </li>
         </ul>
       </div>

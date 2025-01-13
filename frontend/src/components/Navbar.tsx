@@ -59,15 +59,9 @@ const Navbar = () => {
               className="dropdown-content menu bg-base-200 border border-base-300 rounded-box z-[1] w-96 h-52 p-2 mt-2  shadow   "
             >
               <div className="grid-cols-3 grid">
-                <li>
-                  <a>Item 1</a>
-                </li>
-                <li>
-                  <a>Item 2</a>
-                </li>
-                <li>
-                  <a>Item 3</a>
-                </li>
+                <li>Item 1</li>
+                <li>Item 2</li>
+                <li>Item 3</li>
               </div>
             </ul>
           </div>
@@ -103,7 +97,7 @@ const Navbar = () => {
           >
             {!showSearch && <Search />}
           </span>
-          {showSearch ? (
+          {showSearch && (
             <label className="input input-bordered rounded-3xl flex items-center gap-1">
               <input type="text" className="grow" placeholder="Search" />
               <Search className=" hover:cursor-pointer hover:text-blue-400" />
@@ -112,8 +106,6 @@ const Navbar = () => {
                 onClick={() => setShowSearch(!showSearch)}
               />
             </label>
-          ) : (
-            ""
           )}
           <span className=" hover:text-pink-700 hover:cursor-pointer">
             <Heart />

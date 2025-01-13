@@ -30,6 +30,7 @@ export const useProductStore = create<ProductState>((set) => ({
   loading: false,
   setProductsPaginated: async (page, limit) => {
     set({ loading: true });
+    set({ products: [] });
     try {
       const res = await apiClient.get("/products/paginated", {
         params: { page, limit },

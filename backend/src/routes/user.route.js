@@ -16,6 +16,6 @@ route.post("/logout", logout);
 
 route.get("/check", protectRoute, checkAuth);
 
-route.put("/updateProfileImg", protectRoute, updateProfile);
+route.post("/updateProfileImg", protectRoute, updateProfile);
 
 export default route;

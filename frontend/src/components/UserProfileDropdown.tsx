@@ -15,7 +15,8 @@ const UserProfileDropdown = () => {
           <div className="avatar">
             <div className="w-11 rounded-full ring-pink-700 ring-offset-base-100 ring ring-offset-2">
               <img
-                src={authUser?.profilePic ? authUser.profilePic : noProfile}
+                src={authUser?.profilePic ? authUser?.profilePic : noProfile}
+                className=" bg"
               />
             </div>
           </div>
@@ -39,7 +40,7 @@ const UserProfileDropdown = () => {
             <Link to={"/profile"}>Edit Profile</Link>
           </li>
           <li>
-            <a>History</a>
+            <Link to={"/history"}>History</Link>
           </li>
           <li>
             <label

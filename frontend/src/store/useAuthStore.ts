@@ -96,12 +96,12 @@ export const useAuthStore = create<AuthState>((set) => ({
   updateProfile: async (data) => {
     set({ isUpdatingProfile: true });
     try {
-      const res = await apiClient.put("/users/updateProfileImg", data);
+      const res = await apiClient.post("/users/updateProfileImg", data);
       set({ authUser: res.data });
       toast.success("Profile updated successfully");
     } catch (error: any) {
-      toast.error(error.response.data.message);
-      toast.error(error.response.data.message);
+      console.error("Error uploading image:", error);
+      toast.error("Failed to upload image.");
     } finally {
       set({ isUpdatingProfile: false });
     }

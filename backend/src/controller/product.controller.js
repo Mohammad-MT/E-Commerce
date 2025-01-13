@@ -130,3 +130,47 @@ export const updateProduct = async (req, res) => {
     res.status(500).json({ message: "Server error", error });
   }
 };
+
+// ** Extend Pagination with Filters and Sorting **
+
+// exports.getPaginatedProducts = async (req, res) => {
+//   try {
+//     const page = parseInt(req.query.page) || 1;
+//     const limit = parseInt(req.query.limit) || 10;
+//     const skip = (page - 1) * limit;
+
+//     // Optional filters (e.g., category, price range)
+//     const filters = {};
+//     if (req.query.category) {
+//       filters.category = req.query.category;
+//     }
+//     if (req.query.minPrice && req.query.maxPrice) {
+//       filters.price = { $gte: req.query.minPrice, $lte: req.query.maxPrice };
+//     }
+
+//     // Optional sorting (e.g., by price or name)
+//     const sort = {};
+//     if (req.query.sortBy) {
+//       sort[req.query.sortBy] = req.query.order === "desc" ? -1 : 1;
+//     }
+
+//     // Get total count with filters
+//     const total = await Product.countDocuments(filters);
+
+//     // Fetch filtered, sorted, and paginated data
+//     const products = await Product.find(filters)
+//       .sort(sort)
+//       .skip(skip)
+//       .limit(limit);
+
+//     res.json({
+//       page,
+//       limit,
+//       total,
+//       totalPages: Math.ceil(total / limit),
+//       data: products,
+//     });
+//   } catch (error) {
+//     res.status(500).json({ message: "Server error", error });
+//   }
+// };

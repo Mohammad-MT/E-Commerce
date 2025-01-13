@@ -1,4 +1,4 @@
-import { Star } from "lucide-react";
+import { Loader, Star } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Item } from "../store/useProductStore";
 import { useCartStore } from "../store/useCartStore";
@@ -16,7 +16,7 @@ const Card = ({ name, description, price, images, _id, stock }: Item) => {
           {!images[0] ? (
             <div className="skeleton h-32 w-full flex items-center justify-center"></div>
           ) : (
-            <img src={images[0]} alt="img" />
+            <img src={images[0]} alt={name} className=" min-h-72 " />
           )}
           <button
             className="btn opacity-90 border border-base-300 w-1/2 absolute bottom-2  hidden"

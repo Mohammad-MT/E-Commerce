@@ -1,12 +1,10 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { Item, useProductStore } from "../store/useProductStore";
+import { Item } from "../store/useProductStore";
 import apiClient from "../services/apiClient";
 import Breadcrumbs from "../components/Breadcrumbs";
-import { useCartStore } from "../store/useCartStore";
 
 const ProductPage = () => {
-  const { selectedProduct } = useProductStore();
   const { id } = useParams();
   const [product, setProduct] = useState<Item>();
 
@@ -19,7 +17,6 @@ const ProductPage = () => {
   if (!product) {
     return <div>Loading...</div>;
   }
-  // const { addCart, removeCart } = useCartStore();
   return (
     <div>
       <div className="min-h-[calc(100vh-24.2rem)] ">
