@@ -1,20 +1,19 @@
-import { ChevronDown, Heart, Search, ShoppingCart, X } from "lucide-react";
+import { ChevronDown, Heart, ShoppingCart } from "lucide-react";
 
 import EcommerceLogo from "../assets/Shopping.png";
 import { Link } from "react-router-dom";
 import { useAuthStore } from "../store/useAuthStore";
 
 import { useCartStore } from "../store/useCartStore";
-import { useState } from "react";
 import UserProfileDropdown from "./UserProfileDropdown";
 import DrawerSidebar from "./DrawerSidebar";
+import SearchNav from "./SearchNav";
 
 const Navbar = () => {
   const { authUser } = useAuthStore();
   const { itemCount } = useCartStore();
   let cartCount = itemCount();
 
-  const [showSearch, setShowSearch] = useState(false);
 
   return (
     <div className="  flex justify-center  pt-1 mx-1 ">
@@ -91,22 +90,7 @@ const Navbar = () => {
           </Link>
         </div>
         <div className="justify-center items-center gap-3 hidden sm:flex">
-          <span
-            className=" hover:text-pink-700 hover:cursor-pointer"
-            onClick={() => setShowSearch(!showSearch)}
-          >
-            {!showSearch && <Search />}
-          </span>
-          {showSearch && (
-            <label className="input input-bordered rounded-3xl flex items-center gap-1">
-              <input type="text" className="grow" placeholder="Search" />
-              <Search className=" hover:cursor-pointer hover:text-blue-400" />
-              <X
-                className=" hover:cursor-pointer hover:text-red-600"
-                onClick={() => setShowSearch(!showSearch)}
-              />
-            </label>
-          )}
+          <SearchNav />
           <span className=" hover:text-pink-700 hover:cursor-pointer">
             <Heart />
           </span>

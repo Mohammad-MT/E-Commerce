@@ -23,7 +23,7 @@ import useThemeStore from "./store/useThemeStore";
 
 function App() {
   const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
-  const { setProductsPaginated, page, limit } = useProductStore();
+  const { setProductsPaginated, page, limit, filter } = useProductStore();
   const { checkCart } = useCartStore();
   const { theme, checkTheme } = useThemeStore();
 
@@ -34,8 +34,8 @@ function App() {
   }, [checkAuth, checkCart, checkTheme]);
 
   useEffect(() => {
-    setProductsPaginated(page, limit);
-  }, [page, limit, setProductsPaginated]);
+    setProductsPaginated(page, limit, filter);
+  }, [page, limit, filter, setProductsPaginated]);
 
   if (isCheckingAuth && !authUser)
     return (

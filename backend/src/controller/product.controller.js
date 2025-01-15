@@ -1,35 +1,48 @@
 import { Product, productValidationSchema } from "../models/product.model.js";
 
-export const showAll = async (req, res) => {
+export const getSortedPaginatedProducts = async (req, res) => {
   try {
-    const allProduct = await Product.find();
-
-    if (allProduct.length > 0) return res.status(200).json(allProduct);
-
-    res.status(404).json({ message: "No product provided!" });
-  } catch (error) {
-    console.log("Error in showAll product.controller", error.message);
-    res.status(500).json({ message: "Internal Server Error!" });
-  }
-};
-
-// Get Paginated Products
-export const getPaginatedProducts = async (req, res) => {
-  try {
-    // Extract page and limit from query parameters
-    const page = parseInt(req.query.page) || 1; // Default to page 1
-    const limit = parseInt(req.query.limit) || 10; // Default to 10 items per page
-
-    // Calculate the number of items to skip
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
     const skip = (page - 1) * limit;
 
-    // Get total document count
-    const total = await Product.countDocuments();
+    // Optional filters (e.g., category, price range)
+    let filters = {};
+    if (req.query.category) {
+      filters = { ...filters, category: req.query.category };
+    }
+    if (req.query.minPrice && req.query.maxPrice) {
+      filters = {
+        ...filters,
+        price: {
+          $gte: parseInt(req.query.minPrice),
+          $lte: parseInt(req.query.maxPrice),
+        },
+      };
+    }
+    if (req.query.search) {
+      filters = {
+        ...filters,
+        name: { $regex: req.query.search, $options: "i" },
+      };
+      // Search by name (case-insensitive)
+    }
 
-    // Fetch paginated data
-    const products = await Product.find().skip(skip).limit(limit);
+    // Optional sorting (e.g., by price or name)
+    const sort = {};
+    if (req.query.sortBy) {
+      sort[req.query.sortBy] = req.query.order === "desc" ? -1 : 1;
+    }
 
-    // Response with pagination metadata
+    // Get total count with filters
+    const total = await Product.countDocuments(filters);
+
+    // Fetch filtered, sorted, and paginated data
+    const products = await Product.find(filters)
+      .sort(sort)
+      .skip(skip)
+      .limit(limit);
+
     res.json({
       page,
       limit,
@@ -38,6 +51,10 @@ export const getPaginatedProducts = async (req, res) => {
       data: products,
     });
   } catch (error) {
+    console.log(
+      "Error in getPaginatedSortedProducts product.controller",
+      error.message
+    );
     res.status(500).json({ message: "Server error", error });
   }
 };
@@ -130,47 +147,3 @@ export const updateProduct = async (req, res) => {
     res.status(500).json({ message: "Server error", error });
   }
 };
-
-// ** Extend Pagination with Filters and Sorting **
-
-// exports.getPaginatedProducts = async (req, res) => {
-//   try {
-//     const page = parseInt(req.query.page) || 1;
-//     const limit = parseInt(req.query.limit) || 10;
-//     const skip = (page - 1) * limit;
-
-//     // Optional filters (e.g., category, price range)
-//     const filters = {};
-//     if (req.query.category) {
-//       filters.category = req.query.category;
-//     }
-//     if (req.query.minPrice && req.query.maxPrice) {
-//       filters.price = { $gte: req.query.minPrice, $lte: req.query.maxPrice };
-//     }
-
-//     // Optional sorting (e.g., by price or name)
-//     const sort = {};
-//     if (req.query.sortBy) {
-//       sort[req.query.sortBy] = req.query.order === "desc" ? -1 : 1;
-//     }
-
-//     // Get total count with filters
-//     const total = await Product.countDocuments(filters);
-
-//     // Fetch filtered, sorted, and paginated data
-//     const products = await Product.find(filters)
-//       .sort(sort)
-//       .skip(skip)
-//       .limit(limit);
-
-//     res.json({
-//       page,
-//       limit,
-//       total,
-//       totalPages: Math.ceil(total / limit),
-//       data: products,
-//     });
-//   } catch (error) {
-//     res.status(500).json({ message: "Server error", error });
-//   }
-// };
