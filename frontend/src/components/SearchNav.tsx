@@ -11,7 +11,6 @@ const SearchNav = () => {
 
   useEffect(() => {
     if (searchInput.trim().length !== 0) {
-      console.log(searchInput);
       setFilter({ search: searchInput });
     } else {
       setFilter({ search: searchInput });

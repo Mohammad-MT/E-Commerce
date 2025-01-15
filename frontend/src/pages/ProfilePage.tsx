@@ -1,11 +1,12 @@
 import { Camera, Mail, Phone, User } from "lucide-react";
 import { useAuthStore } from "../store/useAuthStore";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import noImgProf from "../assets/noProfile.png";
 
 const ProfilePage = () => {
-  const { authUser, updateProfile, isUpdatingProfile } = useAuthStore();
+  const { authUser, updateProfile, isUpdatingProfile, checkAuth } =
+    useAuthStore();
 
   const [selectedImg, setSelectedImg] = useState<string | null>(null);
 
@@ -22,6 +23,10 @@ const ProfilePage = () => {
       updateProfile({ profilePic: base64Image });
     };
   };
+
+  useEffect(() => {
+    checkAuth();
+  }, [authUser]);
 
   return (
     <div className="min-h-[calc(100vh-24.2rem)] mt-5">

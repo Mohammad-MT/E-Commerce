@@ -46,7 +46,7 @@ export const useProductStore = create<ProductState>((set) => ({
   filter: {
     search: "",
     category: "",
-    sortBy: "", // price
+    sortBy: "createdAt", // price
     order: "desc", //desc or asc
     minPrice: "",
     maxPrice: "",

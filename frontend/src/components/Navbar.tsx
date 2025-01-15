@@ -14,7 +14,6 @@ const Navbar = () => {
   const { itemCount } = useCartStore();
   let cartCount = itemCount();
 
-
   return (
     <div className="  flex justify-center  pt-1 mx-1 ">
       <div className=" navbar max-w-6xl flex justify-between bg-base-200 rounded-xl border border-base-300 shadow-xl z-20 px-3  ">
@@ -39,6 +38,7 @@ const Navbar = () => {
               ></div>
             </div>
           </Link>
+
           <div className=" dropdown">
             <div
               className="flex items-center h-12 relative hover:text-pink-700 hover:cursor-pointer"
@@ -57,11 +57,21 @@ const Navbar = () => {
               tabIndex={0}
               className="dropdown-content menu bg-base-200 border border-base-300 rounded-box z-[1] w-96 h-52 p-2 mt-2  shadow   "
             >
-              <div className="grid-cols-3 grid">
-                <li>Item 1</li>
-                <li>Item 2</li>
-                <li>Item 3</li>
-              </div>
+              <li>
+                <Link to={"/category/electronics"}>Electronics</Link>
+              </li>
+              <li>
+                <Link to={"/category/fashion"}>Fashion</Link>
+              </li>
+              <li>
+                <Link to={"/category/home-appliances"}>Home Appliances</Link>
+              </li>
+              <li>
+                <Link to={"/category/books"}>Books</Link>
+              </li>
+              <li>
+                <Link to={"/category/toys"}>Toys</Link>
+              </li>
             </ul>
           </div>
           <Link to={"/about"}>

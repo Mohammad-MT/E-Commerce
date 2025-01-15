@@ -6,9 +6,9 @@ const CartTable = () => {
   const { Cart, addCart, removeCart, removeItemCart } = useCartStore();
 
   return (
-    <table className="table h-16">
+    <table className="table h-16 me-0 sm:me-8">
       <thead>
-        <tr className=" border-b border-base-300 ">
+        <tr className=" border-b border-base-300">
           <th className="px-1"></th>
           <th className="px-1">Product</th>
           <th className="px-1">Price</th>
@@ -19,13 +19,13 @@ const CartTable = () => {
       </thead>
       <tbody>
         {Cart.map((c, index) => (
-          <tr key={c.Item._id} className="">
-            <th className=" p-0 ">{index + 1}</th>
-            <td className="flex items-center  gap-1 px-1 py-2 w-fit ">
+          <tr key={c.Item._id} className="  h-16">
+            <td className=" p-0 ">{index + 1}</td>
+            <td className="flex items-center justify-center h-full gap-1 px-1 py-2 w-fit  ">
               <img
                 src={c.Item.images[0]}
                 alt="product img"
-                className=" w-20 rounded-lg border"
+                className="  rounded-lg border w-0 sm:w-20"
               />
               <div>{c.Item.name}</div>
             </td>

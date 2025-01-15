@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useProductStore } from "../store/useProductStore";
 
 const SortProductSidebar = () => {
-  const { filter, setFilter } = useProductStore();
+  const { setFilter } = useProductStore();
   const [sliderVal, setSliderVal] = useState({
     min: 0,
     max: 5000,

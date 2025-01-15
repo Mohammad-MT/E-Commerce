@@ -7,36 +7,49 @@ import Pagination from "../components/Pagination";
 import { useProductStore } from "../store/useProductStore";
 import SortOrder from "../components/SortOrder";
 import SortProductSidebar from "../components/SortProductSidebar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const HomePage = () => {
-  const { products, loading } = useProductStore();
+  const { products, loading, setFilter } = useProductStore();
   const [showFilterOp, setShowFilterOp] = useState(false);
+
+  useEffect(() => {
+    setFilter({
+      sortBy: "createdAt",
+      order: "desc",
+      maxPrice: "",
+      minPrice: "",
+      category: "",
+      search: "",
+    });
+  }, [showFilterOp]);
 
   return (
     <div className="min-h-[calc(100vh-24.2rem)]  flex justify-center px-2 sm:px-0">
       <div className="max-w-5xl h-full w-full">
         <Breadcrumbs newDirectory="Shop" />
-        <div className=" flex justify-between gap-2">
-          {showFilterOp && <SortProductSidebar />}
-          <div className="flex-2 flex flex-col items-center justify-center ">
-            <SortOrder
-              showFilterOp={showFilterOp}
-              setShowFilterOp={setShowFilterOp}
-            />
+        <div className=" flex flex-col justify-center gap-2 sm:flex-row">
+          {showFilterOp && (
+            <div className="flex justify-center">
+              <SortProductSidebar />
+            </div>
+          )}
+          <div className="flex-2 flex flex-col items-center w-full ">
+            <SortOrder setShowFilter={() => setShowFilterOp(!showFilterOp)} />
             <div className="flex w-full ">
               <div
-                className={` grid mx-auto grid-cols-1 gap-8 md:grid-cols-${
-                  showFilterOp ? "1" : "2"
-                } lg:grid-cols-${
-                  showFilterOp ? "2" : "3"
-                }`}
+                className={
+                  showFilterOp
+                    ? "grid grid-cols-1 gap-4 md:grid-cols-1 lg:grid-cols-2"
+                    : "grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3"
+                }
               >
                 {loading && (
                   <div className="flex items-center justify-center h-screen">
                     <Loader className="size-10 animate-spin" />
                   </div>
                 )}
+
                 {products?.map((p) => (
                   <Card
                     key={p._id}
@@ -50,7 +63,10 @@ const HomePage = () => {
                 ))}
               </div>
             </div>
-            <Pagination />
+            {products.length === 0 && !loading && (
+              <div className="w-full text-center">Nothing Found</div>
+            )}
+            {products.length >= 1 && <Pagination />}
           </div>
         </div>
       </div>

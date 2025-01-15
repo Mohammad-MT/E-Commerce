@@ -12,7 +12,7 @@ import LogInPage from "./pages/LogInPage";
 import SignUpPage from "./pages/SignUpPage";
 import ProductPage from "./pages/ProductPage";
 import ShopCartPage from "./pages/ShopCartPage";
-import ProfilePage from "./pages/ProfilePage"; //soon
+import ProfilePage from "./pages/ProfilePage"; 
 import HistoryPage from "./pages/HistoryPage"; //soon
 import Page404 from "./pages/Page404";
 
@@ -20,6 +20,8 @@ import { useAuthStore } from "./store/useAuthStore";
 import { useProductStore } from "./store/useProductStore";
 import { useCartStore } from "./store/useCartStore";
 import useThemeStore from "./store/useThemeStore";
+import ContactPage from "./pages/ContactPage";
+import AboutPage from "./pages/AboutPage";
 
 function App() {
   const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
@@ -69,10 +71,8 @@ function App() {
           path="/signup"
           element={authUser ? <Navigate to={"/"} /> : <SignUpPage />}
         />
-        {/* // soon */}
-        <Route path="/about" element={<Page404 />} />
-        {/* // soon */}
-        <Route path="/contact" element={<Page404 />} />
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="/contact" element={<ContactPage />} />
 
         <Route path="*" element={<Page404 />} />
       </Routes>

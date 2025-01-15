@@ -6,8 +6,8 @@ const CheckOut = () => {
   let TotalPrice = calcTotalPrice();
 
   return (
-    <div className="border border-base-300 rounded-lg flex flex-col gap-2 p-5 m-5 h-fit w-96 bg-base-200 ">
-      <div className="font-bold text-xl flex justify-between ">
+    <div className="border border-base-300 rounded-lg flex flex-col gap-2 p-5 m-0 h-fit w-72 bg-base-200 ">
+      <div className="font-bold text-xl flex justify-between  ">
         <h2>Total:</h2>
         <h2>${TotalPrice}</h2>
       </div>
@@ -17,10 +17,10 @@ const CheckOut = () => {
       </div>
       <div className=" divider"></div>
       <div className="">
-        <div className=" join my-2">
+        <div className=" join my-2 ">
           <input
             type="text"
-            className=" input border border-base-300 rounded-e-none rounded-s-3xl "
+            className=" input border border-base-300 rounded-e-none rounded-s-3xl w-full  "
             placeholder="Enter Discount Code"
           />
           <button className="btn btn-neutral  bg-black border border-base-300 rounded-s-none rounded-e-3xl">

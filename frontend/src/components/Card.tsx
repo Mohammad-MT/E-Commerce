@@ -1,4 +1,4 @@
-import { Loader, Star } from "lucide-react";
+import { Star } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Item } from "../store/useProductStore";
 import { useCartStore } from "../store/useCartStore";
@@ -9,7 +9,7 @@ const Card = ({ name, description, price, images, _id, stock }: Item) => {
   return (
     <div>
       <div
-        className="card card-compact border border-base-300 bg-base-100 w-80 shadow-md transition-all duration-300 hover:cursor-pointer hover:shadow-xl"
+        className="card card-compact border border-base-300 bg-base-100 w-full shadow-md transition-all duration-300 hover:cursor-pointer hover:shadow-xl"
         id="card"
       >
         <figure className="relative">

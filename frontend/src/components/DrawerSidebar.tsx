@@ -40,14 +40,14 @@ const DrawerSidebar = () => {
           </svg>
         </label>
       </div>
-      <div className="drawer-side z-30">
+      <div className="drawer-side  z-30 ">
         <label
           htmlFor="my-drawer-4"
           aria-label="close sidebar"
           className="drawer-overlay"
         ></label>
 
-        <ul className="menu bg-base-200 text-base-content min-h-full w-fit p-2">
+        <ul className="menu bg-base-200 text-base-content min-h-full w-64 p-2">
           {/* Sidebar content here */}
           <div className="flex flex-row-reverse mb-4">
             {authUser ? (
