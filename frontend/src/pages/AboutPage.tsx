@@ -2,7 +2,7 @@ import Breadcrumbs from "../components/Breadcrumbs";
 
 const AboutPage = () => {
   return (
-    <div className="min-h-[calc(100vh-24.2rem)] flex flex-col items-center justify-center bg-base-100 ">
+    <div className="min-h-[calc(100vh-24.2rem)] flex flex-col items-center  bg-base-100 ">
       <div className="max-w-5xl h-full w-full">
         <Breadcrumbs newDirectory="About" />
         <div className="flex justify-center">

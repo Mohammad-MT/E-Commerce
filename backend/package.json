@@ -1,13 +1,14 @@
 {
   "name": "e-commerce",
   "version": "1.0.0",
+  "type": "module",
   "description": "e-commerce shop ",
   "main": "src/index.js",
   "scripts": {
     "dev": "npx nodemon src/index.js",
-    "start": "node src/index.js"
+    "start": "node src/index.js",
+    "test": "jest"
   },
-  "type": "module",
   "author": "",
   "license": "ISC",
   "dependencies": {
@@ -16,11 +17,14 @@
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
+    "e-commerce": "file:..",
     "express": "^4.21.2",
     "helmet": "^8.0.0",
     "joi": "^17.13.3",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.9.3",
-    "multer": "^1.4.5-lts.1"
+    "multer": "^1.4.5-lts.1",
+    "winston": "^3.17.0",
+    "winston-daily-rotate-file": "^5.0.0"
   }
 }

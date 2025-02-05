@@ -26,7 +26,7 @@ const HomePage = () => {
 
   return (
     <div className="min-h-[calc(100vh-24.2rem)]  flex justify-center px-2 sm:px-0">
-      <div className="max-w-5xl h-full w-full">
+      <div className="max-w-5xl h-full w-screen">
         <Breadcrumbs newDirectory="Shop" />
         <div className=" flex flex-col justify-center gap-2 sm:flex-row">
           {showFilterOp && (
@@ -34,9 +34,15 @@ const HomePage = () => {
               <SortProductSidebar />
             </div>
           )}
+
           <div className="flex-2 flex flex-col items-center w-full ">
             <SortOrder setShowFilter={() => setShowFilterOp(!showFilterOp)} />
             <div className="flex w-full ">
+              {loading && (
+                <div className="flex  w-full justify-center mx-auto mt-5">
+                  <Loader className="size-10 animate-spin" />
+                </div>
+              )}
               <div
                 className={
                   showFilterOp
@@ -44,12 +50,6 @@ const HomePage = () => {
                     : "grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3"
                 }
               >
-                {loading && (
-                  <div className="flex items-center justify-center h-screen">
-                    <Loader className="size-10 animate-spin" />
-                  </div>
-                )}
-
                 {products?.map((p) => (
                   <Card
                     key={p._id}

@@ -65,7 +65,10 @@ const ProductPage = () => {
                       +
                     </button>
                   </div>
-                  <button className="btn btn-neutral flex-1">
+                  <button
+                    className="btn btn-neutral flex-1"
+                    onClick={() => addCart(product)}
+                  >
                     Add to Cart
                   </button>
                 </div>
