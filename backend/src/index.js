@@ -26,12 +26,23 @@ app.use(
     credentials: true,
   })
 );
-app.use(helmet());
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        imgSrc: [
+          "'self'",
+          "data:",
+          "https://res.cloudinary.com", // Cloudinary image domain
+        ],
+      },
+    },
+  })
+);
 
 app.use("/api/users/", authRoute);
 app.use("/api/products/", productsRoute);
 app.use("/api/orders/", orderRoutes);
-
 
 // Middleware for serving static img files
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
