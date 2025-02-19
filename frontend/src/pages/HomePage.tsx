@@ -10,7 +10,7 @@ import SortProductSidebar from "../components/SortProductSidebar";
 import { useEffect, useState } from "react";
 
 const HomePage = () => {
-  const { products, loading, setFilter } = useProductStore();
+  const { products, loading, setFilter, totalProducts } = useProductStore();
   const [showFilterOp, setShowFilterOp] = useState(false);
 
   useEffect(() => {
@@ -37,6 +37,9 @@ const HomePage = () => {
 
           <div className="flex-2 flex flex-col items-center w-full ">
             <SortOrder setShowFilter={() => setShowFilterOp(!showFilterOp)} />
+            {showFilterOp && (
+              <div className="me-auto p-2">{totalProducts} result founded</div>
+            )}
             <div className="flex w-full ">
               {loading && (
                 <div className="flex  w-full justify-center mx-auto mt-5">

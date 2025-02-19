@@ -24,6 +24,7 @@ type ProductState = {
   };
 
   totalPages: number;
+  totalProducts: number;
   loading: boolean;
   setProductsPaginated: (page: number, limit: number, filter: {}) => void;
   setPage: (page: number) => void;
@@ -42,7 +43,7 @@ type ProductState = {
 export const useProductStore = create<ProductState>((set) => ({
   products: [],
   page: 1,
-  limit: 6,
+  limit: 8,
   filter: {
     search: "",
     category: "",
@@ -52,6 +53,7 @@ export const useProductStore = create<ProductState>((set) => ({
     maxPrice: "",
   },
   totalPages: 0,
+  totalProducts: 0,
   loading: false,
   setProductsPaginated: async (page, limit, filter) => {
     set({ loading: true });
@@ -66,6 +68,7 @@ export const useProductStore = create<ProductState>((set) => ({
         page: res.data.page,
         limit: res.data.limit,
         totalPages: res.data.totalPages,
+        totalProducts: res.data.total,
         loading: false,
       });
     } catch (error: any) {
