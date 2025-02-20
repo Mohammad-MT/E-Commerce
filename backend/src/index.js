@@ -10,6 +10,7 @@ import connectToMongoDB from "./db/connectToMongoDB.js";
 import authRoute from "./routes/user.route.js";
 import productsRoute from "./routes/products.route.js";
 import orderRoutes from "./routes/order.route.js";
+import categoryRoutes from "./routes/category.route.js";
 
 const __dirname = path.resolve();
 
@@ -43,6 +44,7 @@ app.use(
 app.use("/api/users/", authRoute);
 app.use("/api/products/", productsRoute);
 app.use("/api/orders/", orderRoutes);
+app.use("/api/categories/", categoryRoutes);
 
 // Middleware for serving static img files
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
