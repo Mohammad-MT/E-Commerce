@@ -3,6 +3,7 @@ import { useAuthStore } from "../store/useAuthStore";
 import { useEffect, useState } from "react";
 
 import noImgProf from "../assets/noProfile.png";
+import Breadcrumbs from "../components/Breadcrumbs";
 
 const ProfilePage = () => {
   const { authUser, updateProfile, isUpdatingProfile, checkAuth } =
@@ -29,8 +30,9 @@ const ProfilePage = () => {
   }, [authUser]);
 
   return (
-    <div className="min-h-[calc(100vh-24.2rem)] mt-5">
+    <div className="min-h-[calc(100vh-24.2rem)]">
       <div className="flex flex-col items-center  max-w-5xl h-full mx-auto ">
+      <Breadcrumbs newDirectory="Edit Profile"/>
         <div className="bg-base-200 border border-base-300 rounded-xl w-96 p-6 space-y-4">
           <div className="text-center">
             <h1 className="text-2xl font-semibold ">Profile</h1>

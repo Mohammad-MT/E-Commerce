@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import apiClient from "../services/apiClient";
+import toast from "react-hot-toast";
 
 export type Item = {
   _id?: string;
@@ -8,10 +9,12 @@ export type Item = {
   description: string;
   images: string[];
   stock: number;
+  category?: string;
 };
 
 type ProductState = {
   products: Item[];
+  allProducts: Item[];
   page: number;
   limit: number;
   filter: {
@@ -27,6 +30,7 @@ type ProductState = {
   totalProducts: number;
   loading: boolean;
   setProductsPaginated: (page: number, limit: number, filter: {}) => void;
+  setAllProducts: () => void;
   setPage: (page: number) => void;
   setLimit: (limit: number) => void;
   setFilter: (filter: {
@@ -37,11 +41,25 @@ type ProductState = {
     minPrice?: string;
     maxPrice?: string;
   }) => void;
-  selectedProduct: (id: string) => any;
+  selectedProduct: (id: string) => void;
+  isAddingProduct: boolean;
+  addNewProduct: (product: Item) => void;
+  isUpdateingProduct: boolean;
+  updateProduct: (
+    id: string,
+    name: string,
+    price: number,
+    stock: number
+  ) => void;
+  isDeletingProduct: boolean;
+  deleteProduct: (
+    id: string,
+  ) => void;
 };
 // GET /api/products/paginated?page=1&limit=5&category=electronics&sortBy=price&search=salam&order=asc
 export const useProductStore = create<ProductState>((set) => ({
   products: [],
+  allProducts: [],
   page: 1,
   limit: 8,
   filter: {
@@ -72,8 +90,25 @@ export const useProductStore = create<ProductState>((set) => ({
         loading: false,
       });
     } catch (error: any) {
-      console.log("Error in get Product", error.message);
+      console.log("Error in get Product store", error.message);
       set({ products: [] });
+    } finally {
+      set({ loading: false });
+    }
+  },
+  setAllProducts: async () => {
+    set({ loading: true });
+    set({ allProducts: [] });
+    try {
+      const res = await apiClient.get("/products/");
+
+      set({
+        allProducts: res.data.data,
+        loading: false,
+      });
+    } catch (error: any) {
+      console.log("Error in get AllProduct store", error.message);
+      set({ allProducts: [] });
     } finally {
       set({ loading: false });
     }
@@ -90,5 +125,47 @@ export const useProductStore = create<ProductState>((set) => ({
   selectedProduct: async (id) => {
     const res = await apiClient.get(`/products/${id}`);
     return res.data;
+  },
+  isAddingProduct: false,
+  addNewProduct: async (Item) => {
+    set({ isAddingProduct: true });
+    try {
+      const res = await apiClient.post("/products", Item);
+      set((state) => ({
+        products: [res.data, ...state.products],
+      }));
+      toast.success("Product added successfully");
+    } catch (error: any) {
+      toast.error(error.response.data.message);
+      console.log("Error in add Product store", error.message);
+    } finally {
+      set({ isAddingProduct: false });
+    }
+  },
+  isUpdateingProduct: false,
+  updateProduct: async (id, name, price, stock) => {
+    set({ isUpdateingProduct: true });
+    try {
+      await apiClient.put(`/products/${id}`, { name, price, stock });
+      toast.success("Product updated successfully");
+    } catch (error: any) {
+      toast.error(error.response.data.message);
+      console.log("Error in update Product store", error.message);
+    } finally {
+      set({ isUpdateingProduct: false });
+    }
+  },
+  isDeletingProduct: false,
+  deleteProduct: async (id) => {
+    set({ isDeletingProduct: true });
+    try {
+      await apiClient.delete(`/products/${id}`);
+      toast.success("Product Deleted successfully");
+    } catch (error: any) {
+      toast.error(error.response.data.message);
+      console.log("Error in delete Product store", error.message);
+    } finally {
+      set({ isDeletingProduct: false });
+    }
   },
 }));

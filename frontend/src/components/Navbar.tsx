@@ -12,13 +12,13 @@ import SearchNav from "./SearchNav";
 const Navbar = () => {
   const { authUser } = useAuthStore();
   const { itemCount } = useCartStore();
-  let cartCount = itemCount();
+  const cartCount = itemCount();
 
   return (
     <div className="  flex justify-center  pt-1 mx-1 ">
       <div className=" navbar max-w-6xl flex justify-between bg-base-200 rounded-xl border border-base-300 shadow-xl z-20 px-3  ">
         <Link to={"/"}>
-          <div className="flex hover:cursor-pointer">
+          <div className="flex cursor-pointer">
             <div>
               <img src={EcommerceLogo} alt="Logo" className=" max-w-8 me-1" />
             </div>
@@ -27,31 +27,19 @@ const Navbar = () => {
         </Link>
         <div className=" justify-center items-center hidden md:flex gap-6">
           <Link to={"/"}>
-            <div
-              className=" flex flex-nowrap h-12  relative items-center hover:text-pink-700 hover:cursor-pointer"
-              id="nav-selector"
-            >
+            <div className=" flex flex-nowrap h-12  relative items-center hover:text-pink-700 hover:scale-105 cursor-pointer transition-all duration-300">
               <div>Home</div>
-              <div
-                className=" absolute w-0 h-1 top-[50px] rounded-xl  bg-pink-700 transition-all duration-500 "
-                id="nav-selector-underline"
-              ></div>
             </div>
           </Link>
 
           <div className=" dropdown">
             <div
-              className="flex items-center h-12 relative hover:text-pink-700 hover:cursor-pointer"
-              id="nav-selector"
+              className="flex items-center h-12 relative hover:text-pink-700 hover:scale-105 cursor-pointer transition-all duration-300"
               tabIndex={0}
               role="button"
             >
               <div>Categories </div>
               <ChevronDown size={16} />
-              <div
-                className=" absolute w-0 h-1 top-[50px] rounded-xl  bg-pink-700 transition-all duration-500 "
-                id="nav-selector-underline"
-              ></div>
             </div>
             <ul
               tabIndex={0}
@@ -75,37 +63,23 @@ const Navbar = () => {
             </ul>
           </div>
           <Link to={"/about"}>
-            <div
-              className="flex items-center h-12 relative hover:text-pink-700 hover:cursor-pointer"
-              id="nav-selector"
-            >
+            <div className="flex items-center h-12 relative hover:text-pink-700 hover:scale-105 cursor-pointer transition-all duration-300">
               <div>About</div>
-              <div
-                className=" absolute w-0 h-1 top-[50px] rounded-xl  bg-pink-700 transition-all duration-500 "
-                id="nav-selector-underline"
-              ></div>
             </div>
           </Link>
           <Link to={"/contact"}>
-            <div
-              className="flex items-center h-12 relative hover:text-pink-700 hover:cursor-pointer"
-              id="nav-selector"
-            >
+            <div className="flex items-center h-12 relative hover:text-pink-700 hover:scale-105 cursor-pointer transition-all duration-300">
               <div>Contact</div>
-              <div
-                className=" absolute w-0 h-1 top-[50px] rounded-xl  bg-pink-700 transition-all duration-500 "
-                id="nav-selector-underline"
-              ></div>
             </div>
           </Link>
         </div>
         <div className="justify-center items-center gap-3 hidden sm:flex">
           <SearchNav />
-          <span className=" hover:text-pink-700 hover:cursor-pointer">
+          <span className=" hover:text-pink-700  cursor-pointer">
             <Heart />
           </span>
           <Link to={"/cart"}>
-            <span className=" hover:text-pink-700 hover:cursor-pointer relative">
+            <span className=" hover:text-pink-700  cursor-pointer relative">
               {cartCount > 0 && (
                 <div className=" absolute badge bg-pink-700  text-gray-200 bottom-4 start-2 ">
                   {cartCount}

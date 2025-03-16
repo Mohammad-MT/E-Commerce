@@ -1,4 +1,8 @@
-import { Product, productValidationSchema } from "../models/product.model.js";
+import {
+  Product,
+  productValidationSchemaForEdit,
+  productValidationSchema,
+} from "../models/product.model.js";
 
 export const getSortedPaginatedProducts = async (req, res) => {
   try {
@@ -55,6 +59,19 @@ export const getSortedPaginatedProducts = async (req, res) => {
       "Error in getPaginatedSortedProducts product.controller",
       error.message
     );
+    res.status(500).json({ message: "Server error", error });
+  }
+};
+
+export const getAllProducts = async (req, res) => {
+  try {
+    const products = await Product.find();
+
+    res.json({
+      data: products,
+    });
+  } catch (error) {
+    console.log("Error in getAllProducts product.controller", error.message);
     res.status(500).json({ message: "Server error", error });
   }
 };
@@ -131,7 +148,7 @@ export const deleteProduct = async (req, res) => {
 export const updateProduct = async (req, res) => {
   try {
     //validation
-    const { value, error } = productValidationSchema(req.body);
+    const { value, error } = productValidationSchemaForEdit(req.body);
     if (error)
       return res.status(400).json({ message: error.details[0].message });
 

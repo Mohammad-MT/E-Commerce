@@ -12,7 +12,7 @@ import LogInPage from "./pages/LogInPage";
 import SignUpPage from "./pages/SignUpPage";
 import ProductPage from "./pages/ProductPage";
 import ShopCartPage from "./pages/ShopCartPage";
-import ProfilePage from "./pages/ProfilePage"; 
+import ProfilePage from "./pages/ProfilePage";
 import HistoryPage from "./pages/HistoryPage"; //soon
 import Page404 from "./pages/Page404";
 
@@ -22,10 +22,11 @@ import { useCartStore } from "./store/useCartStore";
 import useThemeStore from "./store/useThemeStore";
 import ContactPage from "./pages/ContactPage";
 import AboutPage from "./pages/AboutPage";
+import AdminPanelPage from "./pages/AdminPanelPage";
 
 function App() {
   const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
-  const { setProductsPaginated, page, limit, filter } = useProductStore();
+  const { setProductsPaginated, page, limit, filter, isAddingProduct } = useProductStore();
   const { checkCart } = useCartStore();
   const { theme, checkTheme } = useThemeStore();
 
@@ -37,7 +38,7 @@ function App() {
 
   useEffect(() => {
     setProductsPaginated(page, limit, filter);
-  }, [page, limit, filter, setProductsPaginated]);
+  }, [page, limit, filter, setProductsPaginated, isAddingProduct]);
 
   if (isCheckingAuth && !authUser)
     return (
@@ -73,6 +74,16 @@ function App() {
         />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/contact" element={<ContactPage />} />
+        <Route
+          path="/admin"
+          element={
+            authUser?.role === "admin" ? (
+              <AdminPanelPage />
+            ) : (
+              <Navigate to={"/"} />
+            )
+          }
+        />
 
         <Route path="*" element={<Page404 />} />
       </Routes>

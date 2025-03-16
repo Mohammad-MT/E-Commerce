@@ -63,3 +63,24 @@ export const productValidationSchema = (newProduct) => {
   });
   return schema.validate(newProduct);
 };
+export const productValidationSchemaForEdit = (newProduct) => {
+  const schema = Joi.object({
+    name: Joi.string().max(80).required().messages({
+      "any.required": "Name is required",
+      "string.empty": "Name cannot be empty",
+    }),
+    price: Joi.number().positive().required().messages({
+      "any.required": "Price is required",
+      "number.base": "Price must be a number",
+      "number.positive": "Price must be a positive number",
+    }),
+    stock: Joi.number().integer().min(0).required().messages({
+      "any.required": "Stock is required",
+      "number.base": "Stock must be a number",
+      "number.integer": "Stock must be an integer",
+      "number.min": "Stock cannot be negative",
+    }),
+    
+  });
+  return schema.validate(newProduct);
+};
