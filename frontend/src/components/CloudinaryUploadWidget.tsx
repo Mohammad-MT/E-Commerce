@@ -1,8 +1,19 @@
 import { useEffect, useRef } from "react";
 
-const CloudinaryUploadWidget = ({ uwConfig, setPublicId }) => {
-  const uploadWidgetRef = useRef(null);
-  const uploadButtonRef = useRef(null);
+declare global {
+  interface Window {
+    cloudinary: { createUploadWidget: (config: object, callback: (error: Error | null, result: { event: string; info: { secure_url: string } } | null) => void) => { open: () => void } };
+  }
+}
+
+interface CloudinaryUploadWidgetProps {
+  uwConfig: object; // Replace 'object' with a more specific type if available
+  setPublicId: (url: string) => void;
+}
+
+const CloudinaryUploadWidget: React.FC<CloudinaryUploadWidgetProps> = ({ uwConfig, setPublicId }) => {
+  const uploadWidgetRef = useRef<{ open: () => void } | null>(null);
+  const uploadButtonRef = useRef<HTMLButtonElement | null>(null);
 
   useEffect(() => {
     const initializeUploadWidget = () => {
@@ -10,7 +21,7 @@ const CloudinaryUploadWidget = ({ uwConfig, setPublicId }) => {
         // Create upload widget
         uploadWidgetRef.current = window.cloudinary.createUploadWidget(
           uwConfig,
-          (error, result) => {
+          (error: Error | null, result: { event: string; info: { secure_url: string } } | null) => {
             if (!error && result && result.event === "success") {
               console.log("Upload successful:", result.info);
               setPublicId(result.info.secure_url);

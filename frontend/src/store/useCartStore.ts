@@ -12,6 +12,7 @@ type CartState = {
   addCart: (Item: Item) => void;
   removeCart: (Item: Item) => void;
   removeItemCart: (Item: Item) => void;
+  removeAllItemFromCart: () => void;
   calcTotalPrice: () => number;
   itemCount: () => number;
 };
@@ -92,6 +93,14 @@ export const useCartStore = create<CartState>((set, get) => ({
       }
     } catch (error: any) {
       console.log("Error in remove cart store", error.message);
+    }
+  },
+  removeAllItemFromCart: () => {
+    try {
+      localStorage.setItem("cartItem", JSON.stringify([]));
+      set({ Cart: [] });
+    } catch (error: any) {
+      console.log("Error in remove all item from cart store", error.message);
     }
   },
   calcTotalPrice: () => {

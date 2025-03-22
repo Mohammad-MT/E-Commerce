@@ -4,6 +4,7 @@ import { Item } from "../store/useProductStore";
 import apiClient from "../services/apiClient";
 import Breadcrumbs from "../components/Breadcrumbs";
 import { useCartStore } from "../store/useCartStore";
+import { Loader } from "lucide-react";
 
 const ProductPage = () => {
   const { id } = useParams();
@@ -18,7 +19,15 @@ const ProductPage = () => {
   }, [id]);
 
   if (!product) {
-    return <div>Loading...</div>;
+    return (
+      <div className="max-w-5xl min-h-[calc(100vh-24.2rem)] mx-auto px-2 ">
+        <div className=" flex flex-col items-center justify-center bg-base-100  ">
+          <div className="flex  w-full justify-center mx-auto mt-5">
+            <Loader className="size-10 animate-spin" />
+          </div>
+        </div>
+      </div>
+    );
   }
 
   const productCount = Cart.find((c) => {
@@ -29,7 +38,7 @@ const ProductPage = () => {
     <div className="max-w-5xl min-h-[calc(100vh-24.2rem)] mx-auto px-2 ">
       <div className=" flex flex-col items-center justify-center bg-base-100  ">
         <Breadcrumbs newDirectory="Shop" newDirectory2={`${product.name}`} />
-        <div className="bg-base-100 shadow-xl rounded-lg p-8 max-w-4xl w-full border border-base-300 my-2 ">
+        <div className="bg-base-100 shadow-xl rounded-lg p-5 max-w-4xl w-full border border-base-300 my-2 ">
           <div className="flex flex-col md:flex-row justify-between w-full gap-8">
             <div className="flex-1">
               <img
@@ -41,12 +50,13 @@ const ProductPage = () => {
             <div className="flex-1 flex flex-col justify-between gap-4">
               <div className=" space-y-4">
                 <h2 className="text-3xl font-bold">{product.name}</h2>
+                <div className=" divider"></div>
+                <span className="text-2xl font-semibold text-green-800">
+                  ${product.price.toFixed(2)}
+                </span>
                 <p className="text-lg">{product.description}</p>
               </div>
               <div className=" space-y-4">
-                <span className="text-2xl font-semibold text-green-700">
-                  ${product.price * (productCount ? productCount?.count : 1)}
-                </span>
                 <div className="flex gap-4 items-center">
                   <div className="flex items-center border border-gray-300 rounded-lg text-xl">
                     <button

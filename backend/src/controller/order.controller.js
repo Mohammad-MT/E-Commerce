@@ -24,9 +24,10 @@ export const createOrder = async (req, res) => {
     product.stock -= value.items[0].quantity;
     await product.save();
 
+
     // Create a new order
     const order = await Order.create({
-      userId: req.user.id,
+      userInfo: value.userInfo,
       items: value.items,
       totalAmount: value.totalAmount,
       status: value.status,
@@ -41,7 +42,7 @@ export const createOrder = async (req, res) => {
 // Get User Orders
 export const getUserOrders = async (req, res) => {
   try {
-    const orders = await Order.find({ userId: req.user.id });
+    const orders = await Order.find({ "userInfo._id": req.user.id });
     res.json(orders);
   } catch (error) {
     res.status(500).json({ message: "Server error", error });
@@ -63,13 +64,12 @@ export const getUserOrders = async (req, res) => {
 // Get All Orders (Admin Only)
 export const getAllOrders = async (req, res) => {
   try {
-    const orders = await Order.find().populate("userId", "name email");
+    const orders = await Order.find().populate("userInfo", "name email");
     res.json(orders);
   } catch (error) {
     res.status(500).json({ message: "Server error", error });
   }
 };
-
 
 // Update Order Status (Admin Only)
 export const updateOrderStatus = async (req, res) => {

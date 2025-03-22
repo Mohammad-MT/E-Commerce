@@ -1,9 +1,21 @@
+import { useAuthStore } from "../store/useAuthStore";
 import { useCartStore } from "../store/useCartStore";
+import { useOrderStore } from "../store/useOrderStore";
 
 const CheckOut = () => {
-  const { calcTotalPrice } = useCartStore();
+  const { calcTotalPrice, Cart } = useCartStore();
+  const { authUser } = useAuthStore();
+  const { addNewOrder } = useOrderStore();
 
-  let TotalPrice = calcTotalPrice();
+  const TotalPrice = calcTotalPrice();
+
+  if (!authUser) {
+    return (
+      <div className="border border-base-300 rounded-lg flex flex-col gap-2 p-5 m-0 h-fit w-72 bg-base-200 ">
+        <h2 className="text-center">Please Login to Proceed</h2>
+      </div>
+    );
+  }
 
   return (
     <div className="border border-base-300 rounded-lg flex flex-col gap-2 p-5 m-0 h-fit w-72 bg-base-200 ">
@@ -33,7 +45,25 @@ const CheckOut = () => {
         <h2>Grand Total:</h2>
         <h2>${TotalPrice + 5}</h2>
       </div>
-      <button className="btn btn-neutral bg-black w-full">
+      <button
+        className="btn btn-neutral bg-black w-full"
+        onClick={() =>
+          addNewOrder({
+            totalAmount: TotalPrice + 5,
+            items: Cart.map((item) => ({
+              productId: item.Item!._id,
+              name: item.Item!.name,
+              quantity: item!.count,
+              price: item.Item!.price,
+            })),
+            userInfo: {
+              _id: authUser!._id,
+              name: authUser!.username,
+              email: authUser!.email,
+            },
+          })
+        }
+      >
         Proceed to Checkout
       </button>
     </div>

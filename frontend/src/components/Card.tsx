@@ -1,4 +1,4 @@
-import { Star } from "lucide-react";
+import { ShoppingCart, Star } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Item } from "../store/useProductStore";
 import { useCartStore } from "../store/useCartStore";
@@ -26,7 +26,10 @@ const Card = ({ name, description, price, images, _id, stock }: Item) => {
               toast.success("New Item Added to ShopCart");
             }}
           >
-            Add to Cart
+          <div className="flex justify-center items-center gap-2">
+            <span>Add to Cart</span>
+            <ShoppingCart />
+          </div>
           </button>
           <button
             className=" bg-white rounded-badge p-2 absolute end-3 top-3 hover:text-yellow-400  hidden"

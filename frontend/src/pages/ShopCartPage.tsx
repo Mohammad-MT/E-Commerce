@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import Breadcrumbs from "../components/Breadcrumbs";
 import CartTable from "../components/CartTable";
 import CheckOut from "../components/CheckOut";
@@ -26,9 +27,9 @@ const ShopCartPage = () => {
               <p className="text-center mb-6">
                 Browse our categories and discover our best deals!
               </p>
-              <a href="/" className="text-blue-500 hover:underline">
+              <Link to="/" className="text-blue-500 hover:underline">
                 Continue Shopping
-              </a>
+              </Link>
             </div>
           )}
         </div>

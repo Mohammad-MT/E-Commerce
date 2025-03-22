@@ -3,10 +3,10 @@ import Joi from "joi";
 
 const orderSchema = new mongoose.Schema(
   {
-    userId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-      required: true,
+    userInfo: {
+      _id: { type: mongoose.Schema.Types.ObjectId, ref:"User", required: true },
+      name: { type: String, required: true },
+      email: { type: String, required: true },
     },
     items: [
       {
@@ -15,6 +15,7 @@ const orderSchema = new mongoose.Schema(
           ref: "Product",
           required: true,
         },
+        name: { type: String, required: true },
         quantity: { type: Number, required: true },
         price: { type: Number, required: true },
       },
@@ -33,19 +34,35 @@ const orderSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-
 export const validateOrders = (order) => {
   const schema = Joi.object({
-    // userId: Joi.string().required().messages({
-    //   "any.required": "User ID is required.",
-    //   "string.empty": "User ID cannot be empty.",
-    // }),
+    userInfo: Joi.object({
+      _id: Joi.string().required().messages({
+        "any.required": "User ID is required.",
+        "string.empty": "User ID cannot be empty.",
+      }),
+      name: Joi.string().required().messages({
+        "any.required": "User name is required.",
+        "string.empty": "User name cannot be empty.",
+      }),
+      email: Joi.string().email().required().messages({
+        "any.required": "User email is required.",
+        "string.email": "User email must be a valid email address.",
+        "string.empty": "User email cannot be empty.",
+      }),
+    }).required().messages({
+      "any.required": "User information is required.",
+    }),
     items: Joi.array()
       .items(
         Joi.object({
           productId: Joi.string().required().messages({
             "any.required": "Product ID is required.",
             "string.empty": "Product ID cannot be empty.",
+          }),
+          name: Joi.string().required().messages({
+            "any.required": "Product name is required.",
+            "string.empty": "Product name cannot be empty.",
           }),
           quantity: Joi.number().greater(0).required().messages({
             "any.required": "Quantity is required.",
@@ -67,7 +84,9 @@ export const validateOrders = (order) => {
       "any.required": "Total amount is required.",
       "number.greater": "Total amount must be greater than 0.",
     }),
-    status: Joi.string().valid("Pending", "Completed", "Cancelled").default("Pending"),
+    status: Joi.string()
+      .valid("Pending", "Completed", "Cancelled")
+      .default("Pending"),
   });
 
   return schema.validate(order, { abortEarly: false });
