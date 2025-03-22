@@ -10,7 +10,7 @@ const SortProductSidebar = () => {
     null
   );
   const [selectedCategore, setSelectedCategore] = useState<string | null>(
-    "Clothing"
+    "All"
   );
 
   const [sliderVal, setSliderVal] = useState({
@@ -26,17 +26,20 @@ const SortProductSidebar = () => {
 
   const sortConstant = {
     sortBy: [
-      { name: "newest", filter: "createdAt" },
-      { name: "price", filter: "price" },
-      { name: "name", filter: "name" },
+      { name: "Newest", filter: "createdAt" },
+      { name: "Price", filter: "price" },
+      { name: "Name", filter: "name" },
     ],
     category: [
-      "Clothing",
-      "Footwear",
-      "Electronics",
-      "Home Appliances",
-      "Books & Stationery",
-      "Beauty & Health",
+      { name: "All", filter: "" },
+      { name: "Electronics", filter: "electronics" },
+      { name: "Clothing", filter: "clothing" },
+      { name: "Home", filter: "home" },
+      { name: "Toys", filter: "toys" },
+      { name: "Sports", filter: "sports" },
+      { name: "Books", filter: "books" },
+      { name: "Tools", filter: "tools" },
+      { name: "Other", filter: "other" },
     ],
     priceRange: [
       { min: "0", max: "50" },
@@ -82,16 +85,16 @@ const SortProductSidebar = () => {
               {sortConstant.category.map((s) => (
                 <li
                   onClick={() => {
-                    setFilter({ category: "" });
-                    setSelectedCategore(s);
+                    setFilter({ category: s.filter });
+                    setSelectedCategore(s.name);
                   }}
                 >
                   <div
                     className={`rounded-md p-2 hover:bg-base-300 ${
-                      selectedCategore === s && "bg-base-300"
+                      selectedCategore === s.name && "bg-base-300"
                     }`}
                   >
-                    <span className="text ps-4">{s}</span>
+                    <span className="text ps-4">{s.name}</span>
                   </div>
                 </li>
               ))}

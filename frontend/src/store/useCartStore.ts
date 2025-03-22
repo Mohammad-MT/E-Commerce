@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { Item } from "./useProductStore";
+import toast from "react-hot-toast";
 
 export type CartType = {
   Item: Item;
@@ -35,19 +36,31 @@ export const useCartStore = create<CartState>((set, get) => ({
       const oldCart = get().Cart;
 
       const itemInCart = oldCart.find((c) => c.Item._id === Item._id);
-      if (itemInCart) {
-        oldCart.map((c) => {
-          c.Item._id === Item._id ? (c.count += 1) : c;
-        });
 
-        localStorage.setItem("cartItem", JSON.stringify(oldCart));
-        set({ Cart: oldCart });
+      if (itemInCart && itemInCart.count > 0) {
+        if (itemInCart.count >= Item.stock) {
+          toast.error("Item out of stock");
+        } else {
+          oldCart.map((c) => {
+            if (c.Item._id === Item._id) {
+              c.count += 1;
+            }
+          });
+
+          localStorage.setItem("cartItem", JSON.stringify(oldCart));
+          set({ Cart: oldCart });
+        }
       } else {
-        localStorage.setItem(
-          "cartItem",
-          JSON.stringify([...oldCart, { Item, count: 1 }])
-        );
-        set({ Cart: [...oldCart, { Item, count: 1 }] });
+        if (Item.stock === 0) {
+          toast.error("Item out of stock");
+        } else {
+          localStorage.setItem(
+            "cartItem",
+            JSON.stringify([...oldCart, { Item, count: 1 }])
+          );
+          toast.success("Item added to cart");
+          set({ Cart: [...oldCart, { Item, count: 1 }] });
+        }
       }
     } catch (error: any) {
       console.log("Error in add cart store", error.message);

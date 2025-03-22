@@ -5,6 +5,7 @@ import apiClient from "../services/apiClient";
 import Breadcrumbs from "../components/Breadcrumbs";
 import { useCartStore } from "../store/useCartStore";
 import { Loader } from "lucide-react";
+import toast from "react-hot-toast";
 
 const ProductPage = () => {
   const { id } = useParams();
@@ -57,6 +58,9 @@ const ProductPage = () => {
                 <p className="text-lg">{product.description}</p>
               </div>
               <div className=" space-y-4">
+                <div>
+                  <div className=" font-semibold">Stock : {product.stock}</div>
+                </div>
                 <div className="flex gap-4 items-center">
                   <div className="flex items-center border border-gray-300 rounded-lg text-xl">
                     <button
@@ -70,14 +74,18 @@ const ProductPage = () => {
                     </p>
                     <button
                       className="px-4 py-2"
-                      onClick={() => addCart(product)}
+                      onClick={() => {
+                        addCart(product);
+                      }}
                     >
                       +
                     </button>
                   </div>
                   <button
                     className="btn btn-neutral flex-1"
-                    onClick={() => addCart(product)}
+                    onClick={() => {
+                      addCart(product);
+                    }}
                   >
                     Add to Cart
                   </button>

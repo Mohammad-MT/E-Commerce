@@ -23,13 +23,12 @@ const Card = ({ name, description, price, images, _id, stock }: Item) => {
             id="showBtnCart"
             onClick={() => {
               addCart({ _id, name, price, description, images, stock });
-              toast.success("New Item Added to ShopCart");
             }}
           >
-          <div className="flex justify-center items-center gap-2">
-            <span>Add to Cart</span>
-            <ShoppingCart />
-          </div>
+            <div className="flex justify-center items-center gap-2">
+              <span>Add to Cart</span>
+              <ShoppingCart />
+            </div>
           </button>
           <button
             className=" bg-white rounded-badge p-2 absolute end-3 top-3 hover:text-yellow-400  hidden"
