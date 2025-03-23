@@ -11,6 +11,7 @@ import authRoute from "./routes/user.route.js";
 import productsRoute from "./routes/products.route.js";
 import orderRoutes from "./routes/order.route.js";
 import categoryRoutes from "./routes/category.route.js";
+import reviewRoutes from "./routes/review.route.js";
 
 const __dirname = path.resolve();
 
@@ -45,6 +46,7 @@ app.use("/api/users/", authRoute);
 app.use("/api/products/", productsRoute);
 app.use("/api/orders/", orderRoutes);
 app.use("/api/categories/", categoryRoutes);
+app.use("/api/reviews/", reviewRoutes);
 
 // Middleware for serving static img files
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
