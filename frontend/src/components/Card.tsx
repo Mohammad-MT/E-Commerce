@@ -2,7 +2,6 @@ import { ShoppingCart, Star } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Item } from "../store/useProductStore";
 import { useCartStore } from "../store/useCartStore";
-import toast from "react-hot-toast";
 
 const Card = ({ name, description, price, images, _id, stock }: Item) => {
   const { addCart } = useCartStore();

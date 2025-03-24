@@ -24,9 +24,9 @@ export default function ReviewBox() {
       <h2 className=" text-center text-2xl font-bold text-gray-700 mb-8">
         Reviews
       </h2>
-      <div className="  flex  justify-center px-2 mb-8 ">
-        {productReviews.length > 0 ? (
-          <div className="  grid grid-cols-1 gap-4 w-full md:w-2/3 sm:grid-cols-2">
+      <div className=" flex  justify-center px-2 mb-8 ">
+        {productReviews ? (
+          <div className=" w-full grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {productReviews.map((r) => (
               <Review key={r._id} Review={r} />
             ))}
