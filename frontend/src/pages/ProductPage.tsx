@@ -5,7 +5,7 @@ import apiClient from "../services/apiClient";
 import Breadcrumbs from "../components/Breadcrumbs";
 import { useCartStore } from "../store/useCartStore";
 import { Loader } from "lucide-react";
-import toast from "react-hot-toast";
+import ReviewBox from "../components/rewiew/ReviewBox";
 
 const ProductPage = () => {
   const { id } = useParams();
@@ -94,6 +94,8 @@ const ProductPage = () => {
             </div>
           </div>
         </div>
+        <div className="divider mt-10 "></div>
+        <ReviewBox />
       </div>
     </div>
   );

@@ -2,8 +2,7 @@ import express from "express";
 
 import {
   createReview,
-  getReviews,
-  getReviewById,
+  getProductReviews,
   deleteReview,
   updateReview,
 } from "../controller/review.controller.js";
@@ -14,8 +13,7 @@ import authorizeRole from "../middleware/authorizeRole.js";
 const router = express.Router();
 
 router.post("/", protectRoute, createReview);
-router.get("/", getReviews);
-router.get("/:id", getReviewById);
+router.get("/:productId", getProductReviews);
 router.put("/:id", protectRoute, authorizeRole("admin"), updateReview);
 router.delete("/:id", protectRoute, authorizeRole("admin"), deleteReview);
 

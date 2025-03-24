@@ -3,10 +3,11 @@ import Joi from "joi";
 
 const reviewSchema = new mongoose.Schema(
   {
-    userId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-      required: true,
+    userInfo: {
+      id: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+      username: { type: String, required: true },
+      email: { type: String, required: true },
+      profilePic: { type: String, required: true },
     },
     productId: {
       type: mongoose.Schema.Types.ObjectId,
@@ -21,7 +22,7 @@ const reviewSchema = new mongoose.Schema(
 
 export const Review = mongoose.model("Review", reviewSchema);
 
-export const reviewValidationSchema = (newReview) => {
+export const addReviewValidationSchema = (newReview) => {
   const schema = Joi.object({
     productId: Joi.string().required().messages({
       "any.required": "Product ID is required",
