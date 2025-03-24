@@ -6,8 +6,11 @@ const ReviewSkeleton = () => {
       </h2>
       <div className="flex flex-col items-center">
         <div className="grid grid-cols-1 gap-4 w-full md:w-2/3 sm:grid-cols-2">
-          {[1, 2, 3].map(() => (
-            <div className="rounded-lg bg-base-100 p-4 border border-base-200 shadow-md">
+          {[1, 2, 3].map((index) => (
+            <div
+              key={index}
+              className="rounded-lg bg-base-100 p-4 border border-base-200 shadow-md"
+            >
               <div className="flex justify-between items-center  gap-4">
                 <div className="skeleton h-12 w-12 shrink-0 rounded-full"></div>
                 <div className="flex flex-col gap-3">
