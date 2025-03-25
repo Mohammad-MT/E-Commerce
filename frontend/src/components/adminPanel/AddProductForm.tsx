@@ -1,10 +1,8 @@
-import { CircleCheckBig } from "lucide-react";
 import { useProductStore } from "../../store/useProductStore";
-import CloudinaryUploadWidget from "../CloudinaryUploadWidget";
-import { useState } from "react";
+import UploadImage from "../UploadImage";
 
 const ProductForm = () => {
-  const { addNewProduct, isAddingProduct } = useProductStore();
+  const { addNewProduct, isAddingProduct, imageUrl } = useProductStore();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -16,7 +14,6 @@ const ProductForm = () => {
     ).value;
     const categorie = (document.getElementById("category") as HTMLSelectElement)
       .value;
-    const image = imgUrl;
 
     const newProduct = {
       name: title,
@@ -24,95 +21,74 @@ const ProductForm = () => {
       stock: parseInt(stock),
       description,
       category: categorie,
-      images: [image],
+      images: [imageUrl],
     };
 
     addNewProduct(newProduct);
   };
 
-  const cloudName = "dzv86ea9r";
-  const uploadPreset = "ym2h9jy2";
-  const [imgUrl, setImgUrl] = useState("");
-
-  // Upload Widget Configuration
-  const uwConfig = {
-    cloudName,
-    uploadPreset,
-  };
   return (
     <div className="flex flex-col w-full m-0 p-0">
       <div className="w-full bg-base-300 p-4 ">Add new Product:</div>
-      <form className="p-4  h-full" onSubmit={handleSubmit}>
+      <form className="p-4 h-full" onSubmit={handleSubmit}>
         <div className="flex flex-col gap-4">
-          <div className="flex flex-col">
-            <label htmlFor="title" className="mb-2 font-semibold text-gray-700">
-              Title:
+          <div className="form-control">
+            <label htmlFor="title" className="label">
+              <span className="label-text font-semibold">Title:</span>
             </label>
             <input
               type="text"
               id="title"
               placeholder="Enter product title"
-              className="p-2 border border-gray-300 rounded-md"
+              className="input input-bordered"
             />
           </div>
           <div className="flex gap-4">
-            <div className="flex flex-col w-full">
-              <label
-                htmlFor="price"
-                className="mb-2 font-semibold text-gray-700"
-              >
-                Price:
+            <div className="form-control w-full">
+              <label htmlFor="price" className="label">
+                <span className="label-text font-semibold">Price:</span>
               </label>
               <input
                 type="number"
                 id="price"
-                placeholder="product price"
-                className="p-2 border border-gray-300 rounded-md"
+                placeholder="Product price"
+                className="input input-bordered"
               />
             </div>
-            <div className="flex flex-col w-full">
-              <label
-                htmlFor="stock"
-                className="mb-2 font-semibold text-gray-700"
-              >
-                Stock:
+            <div className="form-control w-full">
+              <label htmlFor="stock" className="label">
+                <span className="label-text font-semibold">Stock:</span>
               </label>
               <input
                 type="number"
                 id="stock"
-                placeholder="stock count"
-                className="p-2 border border-gray-300 rounded-md"
+                placeholder="Stock count"
+                className="input input-bordered"
               />
             </div>
           </div>
-          <div className="flex flex-col">
-            <label
-              htmlFor="description"
-              className="mb-2 font-semibold text-gray-700"
-            >
-              Description:
+          <div className="form-control">
+            <label htmlFor="description" className="label">
+              <span className="label-text font-semibold">Description:</span>
             </label>
             <textarea
               name="description"
               id="description"
-              className="p-2 border border-gray-300 rounded-md h-44"
+              className="textarea textarea-bordered h-44"
               placeholder="Enter product description"
             ></textarea>
           </div>
-          <div className="flex flex-col">
-            <label
-              htmlFor="category"
-              className="mb-2 font-semibold text-gray-700"
-            >
-              Category:
+          <div className="form-control">
+            <label htmlFor="category" className="label">
+              <span className="label-text font-semibold">Category:</span>
             </label>
             <select
               id="category"
               defaultValue="Select a Category"
-              className="select  border border-gray-300 rounded-md"
+              className="select select-bordered"
             >
               <option disabled={true} hidden={true} value={""}>
-                Select a Categorie
+                Select a Category
               </option>
               <option value={"electronics"}>Electronics</option>
               <option value={"books"}>Books</option>
@@ -120,25 +96,17 @@ const ProductForm = () => {
               <option value={"home"}>Home</option>
             </select>
           </div>
-          <div className="flex flex-col">
-            <label htmlFor="image" className="mb-2 font-semibold text-gray-700">
-              Upload Image:
+          <div className="form-control">
+            <label htmlFor="image" className="label">
+              <span className="label-text font-semibold">Upload Image:</span>
             </label>
-            <CloudinaryUploadWidget
-              uwConfig={uwConfig}
-              setPublicId={setImgUrl}
-            />
-            {imgUrl && (
-              <div className="flex items-center gap-2">
-                <p className="text-gray-700">Image uploaded successful</p>
-                <CircleCheckBig className="text-green-600" />
-              </div>
-            )}
+            <UploadImage />
           </div>
-
           <button
             type="submit"
-            className="self-end px-4 py-2 mt-4 font-semibold text-white bg-blue-500 rounded-md hover:bg-blue-600"
+            className={`btn btn-neutral self-end px-4 py-2 mt-4 font-semibold ${
+              isAddingProduct ? "loading" : ""
+            }`}
           >
             {isAddingProduct ? "Loading ..." : "Add New Product"}
           </button>

@@ -52,9 +52,10 @@ type ProductState = {
     stock: number
   ) => void;
   isDeletingProduct: boolean;
-  deleteProduct: (
-    id: string,
-  ) => void;
+  deleteProduct: (id: string) => void;
+  uploading: boolean;
+  imageUrl: string;
+  uploadImage: (formData: FormData) => void;
 };
 // GET /api/products/paginated?page=1&limit=5&category=electronics&sortBy=price&search=salam&order=asc
 export const useProductStore = create<ProductState>((set) => ({
@@ -166,6 +167,21 @@ export const useProductStore = create<ProductState>((set) => ({
       console.log("Error in delete Product store", error.message);
     } finally {
       set({ isDeletingProduct: false });
+    }
+  },
+  uploading: false,
+  imageUrl: "",
+  uploadImage: async (formData: FormData) => {
+    set({ uploading: true });
+    try {
+      const res = await apiClient.post("products/uploadImage", formData);
+      set({ imageUrl: res.data.imageUrl });
+      toast.success("Image Uploaded Successfully.");
+    } catch (error: any) {
+      toast.error(error.response.data.message);
+      console.error("Error in UploadImage Product store", error);
+    } finally {
+      set({ uploading: false });
     }
   },
 }));

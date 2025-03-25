@@ -164,3 +164,15 @@ export const updateProduct = async (req, res) => {
     res.status(500).json({ message: "Server error", error });
   }
 };
+
+export const uploadProductImage = async (req, res) => {
+  try {
+    if (!req.file || !req.file.path) {
+      return res.status(400).json({ message: "No file uploaded" });
+    }
+
+    res.json({ imageUrl: req.file.path }); //cloudinary image url
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error });
+  }
+};

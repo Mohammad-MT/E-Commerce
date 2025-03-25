@@ -13,8 +13,8 @@ const OrderTR = ({ order }: { order: order }) => {
       <td>{order._id}</td>
       <th>{order.userInfo?.name || " "}</th>
       <th>
-        {order.items?.map((i) => (
-          <p className="py-1">
+        {order.items?.map((i, index) => (
+          <p key={index} className="py-1">
             <Link
               className="underline text-purple-700"
               to={`/products/${i.productId}`}
