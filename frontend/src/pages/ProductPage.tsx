@@ -12,6 +12,7 @@ const ProductPage = () => {
   const [product, setProduct] = useState<Item>();
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     apiClient.get(`/products/${id}`).then((res) => {
       setProduct(res.data);
     });
