@@ -5,7 +5,7 @@ const ReviewSkeleton = () => {
         Reviews
       </h2>
       <div className="flex flex-col items-center">
-        <div className="grid grid-cols-1 gap-4 w-full md:w-2/3 sm:grid-cols-2">
+        <div className="grid grid-cols-1 gap-4 w-full sm:grid-cols-2 lg:grid-cols-3">
           {[1, 2, 3].map((index) => (
             <div
               key={index}

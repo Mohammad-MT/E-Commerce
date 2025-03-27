@@ -1,6 +1,6 @@
 const ProductSkeleton = () => {
   return (
-    <div className="max-w-4xl  w-full min-h-[calc(100vh-24.2rem)] mx-auto  ">
+    <div className="max-w-4xl  w-full mb-12 mx-auto  ">
       <div className="p-5 border border-base-300 rounded-lg shadow-xl bg-base-100">
         <div className="w-full flex flex-col md:flex-row gap-8 items-center">
           <div className=" w-full h-96 rounded-lg skeleton bg-base-200"></div>

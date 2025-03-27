@@ -7,7 +7,7 @@ import { Loader } from "lucide-react";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 
-import HomePage from "./pages/HomePage";
+import ProductsPage from "./pages/ProductsPage";
 import LogInPage from "./pages/LogInPage";
 import SignUpPage from "./pages/SignUpPage";
 import ProductPage from "./pages/ProductPage";
@@ -23,10 +23,12 @@ import useThemeStore from "./store/useThemeStore";
 import ContactPage from "./pages/ContactPage";
 import AboutPage from "./pages/AboutPage";
 import AdminPanelPage from "./pages/AdminPanelPage";
+import HomePage from "./pages/HomePage";
 
 function App() {
   const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
-  const { setProductsPaginated, page, limit, filter, isAddingProduct } = useProductStore();
+  const { setProductsPaginated, page, limit, filter, isAddingProduct } =
+    useProductStore();
   const { checkCart } = useCartStore();
   const { theme, checkTheme } = useThemeStore();
 
@@ -53,6 +55,7 @@ function App() {
       <Routes>
         <Route>
           <Route index element={<HomePage />} />
+          <Route path="/products" element={<ProductsPage />} />
           <Route path="/products/:id" element={<ProductPage />} />
           <Route path="/cart" element={<ShopCartPage />} />
           <Route

@@ -1,6 +1,6 @@
-import { ChevronDown, Heart, ShoppingCart } from "lucide-react";
+import { Heart, ShoppingCart } from "lucide-react";
 
-import EcommerceLogo from "../assets/Shopping.png";
+import EcommerceLogo from "../assets/Shopping2.png";
 import { Link } from "react-router-dom";
 import { useAuthStore } from "../store/useAuthStore";
 
@@ -15,8 +15,8 @@ const Navbar = () => {
   const cartCount = itemCount();
 
   return (
-    <div className="  flex justify-center  pt-1 mx-1 ">
-      <div className=" navbar max-w-6xl flex justify-between bg-base-200 rounded-xl border border-base-300 shadow-xl z-20 px-3  ">
+    <div className="  flex justify-center  pt-4 mx-1 ">
+      <div className=" navbar max-w-6xl flex justify-between transition-all bg-base-200 rounded-xl border border-base-300 shadow-md hover:shadow-xl duration-700 z-20 px-3  ">
         <Link to={"/"}>
           <div className="flex cursor-pointer">
             <div>
@@ -27,12 +27,17 @@ const Navbar = () => {
         </Link>
         <div className=" justify-center items-center hidden md:flex gap-6">
           <Link to={"/"}>
-            <div className=" flex flex-nowrap h-12  relative items-center hover:text-pink-700 hover:scale-105 cursor-pointer transition-all duration-300">
+            <div className=" flex flex-nowrap h-12  relative items-center hover:text-pink-700 hover:scale-105 cursor-pointer  duration-300">
               <div>Home</div>
             </div>
           </Link>
+          <Link to={"/Products"}>
+            <div className="flex items-center h-12 relative hover:text-pink-700 hover:scale-105 cursor-pointer duration-300">
+              <div>Products</div>
+            </div>
+          </Link>
 
-          <div className=" dropdown">
+          {/* <div className=" dropdown">
             <div
               className="flex items-center h-12 relative hover:text-pink-700 hover:scale-105 cursor-pointer transition-all duration-300"
               tabIndex={0}
@@ -61,14 +66,14 @@ const Navbar = () => {
                 <Link to={"/category/toys"}>Toys</Link>
               </li>
             </ul>
-          </div>
+          </div> */}
           <Link to={"/about"}>
-            <div className="flex items-center h-12 relative hover:text-pink-700 hover:scale-105 cursor-pointer transition-all duration-300">
+            <div className="flex items-center h-12 relative hover:text-pink-700 hover:scale-105 cursor-pointer  duration-300">
               <div>About</div>
             </div>
           </Link>
           <Link to={"/contact"}>
-            <div className="flex items-center h-12 relative hover:text-pink-700 hover:scale-105 cursor-pointer transition-all duration-300">
+            <div className="flex items-center h-12 relative hover:text-pink-700 hover:scale-105 cursor-pointer  duration-300">
               <div>Contact</div>
             </div>
           </Link>

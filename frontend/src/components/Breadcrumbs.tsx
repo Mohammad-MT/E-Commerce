@@ -7,7 +7,7 @@ interface Prop {
 
 const Breadcrumbs = ({ newDirectory, newDirectory2 }: Prop) => {
   return (
-    <div className="flex items-center text-gray-500  pt-4 my-2 w-full mb-5">
+    <div className="flex items-center text-pink-600   pt-4 my-2 w-full mb-5">
       <div className="breadcrumbs text-sm">
         <ul>
           <li>
