@@ -11,7 +11,7 @@ const ShopCartPage = () => {
     <div className="min-h-[calc(100vh-24.2rem)]   px-5 ">
       <div className=" flex flex-col items-center justify-center">
         <div className="max-w-5xl h-full w-full ">
-          <Breadcrumbs newDirectory="Cart" />
+          <Breadcrumbs paths={[{ name: "Cart", path: "/cart" }]} />
           {Cart.length > 0 ? (
             <div className=" w-full flex justify-between  flex-col lg:flex-row ">
               <CartTable />

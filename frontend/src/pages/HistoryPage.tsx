@@ -11,7 +11,7 @@ const HistoryPage = () => {
   return (
     <div className="min-h-[calc(100vh-24.2rem)]  flex justify-center px-2 sm:px-0">
       <div className="max-w-5xl h-full w-screen">
-        <Breadcrumbs newDirectory="My Orders" />
+        <Breadcrumbs paths={[{ name: "My Orders", path: "/history" }]} />
 
         <div className="overflow-x-scroll rounded-box border border-base-300  bg-base-100">
           <table className="table">

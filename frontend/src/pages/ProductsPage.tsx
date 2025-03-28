@@ -27,7 +27,7 @@ const ProductsPage = () => {
   return (
     <div className="min-h-[calc(100vh-24.2rem)]  flex justify-center px-2 sm:px-4">
       <div className="max-w-5xl h-full w-screen">
-        <Breadcrumbs newDirectory="Products" />
+        <Breadcrumbs paths={[{ name: "Products", path: "/products" }]} />
         <div className=" flex flex-col justify-center gap-2 sm:flex-row">
           {showFilterOp && (
             <div className="flex justify-center">

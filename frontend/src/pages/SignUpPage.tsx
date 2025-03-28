@@ -46,7 +46,7 @@ function SignUpPage() {
 
   return (
     <div className="max-w-5xl min-h-[calc(100vh-24.2rem)]  my-auto mx-auto px">
-      <Breadcrumbs newDirectory="Signup" />
+      <Breadcrumbs paths={[{ name: "Sign Up", path: "/signup" }]} />
       <div className=" flex justify-center items-center my-auto ">
         <div className="flex flex-col w-fit border border-base-300 rounded-xl shadow-lg p-8 ">
           <h1 className="text-2xl font-bold  text-center mb-5 px-8">

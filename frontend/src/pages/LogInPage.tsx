@@ -44,7 +44,7 @@ const LogInPage = () => {
 
   return (
     <div className="max-w-5xl min-h-[calc(100vh-24.2rem)]  my-auto mx-auto px-5">
-      <Breadcrumbs newDirectory="Login" />
+      <Breadcrumbs paths={[{ name: "Login", path: "/login" }]} />
 
       <div className="flex justify-center items-center ">
         <div className="flex flex-col w-fit border border-base-300 rounded-xl shadow-lg p-8  ">

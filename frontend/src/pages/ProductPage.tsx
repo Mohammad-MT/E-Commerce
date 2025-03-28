@@ -22,8 +22,10 @@ const ProductPage = () => {
     <div className="max-w-5xl min-h-[calc(100vh-24.2rem)] mx-auto px-2 ">
       <div className=" flex flex-col items-center justify-center bg-base-100  ">
         <Breadcrumbs
-          newDirectory="Shop"
-          newDirectory2={` ${product ? product.name : ""}`}
+          paths={[
+            { name: "Shop", path: "/products" },
+            { name: ` ${product ? product.name : ""}`, path: "" },
+          ]}
         />
         {product ? <Product product={product} /> : <ProductSkeleton />}
         <div className="divider mt-10 "></div>
