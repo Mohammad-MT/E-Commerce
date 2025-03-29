@@ -10,6 +10,9 @@ export type Item = {
   images: string[];
   stock: number;
   category?: string;
+  discountType?: "percentage" | "fixed";
+  discountValue?: number;
+  finalPrice: number;
 };
 
 type ProductState = {
@@ -29,7 +32,7 @@ type ProductState = {
   totalPages: number;
   totalProducts: number;
   loading: boolean;
-  setProductsPaginated: (page: number, limit: number, filter: {}) => void;
+  setProductsPaginated: (page: number, limit: number, filter: object) => void;
   setAllProducts: () => void;
   setPage: (page: number) => void;
   setLimit: (limit: number) => void;

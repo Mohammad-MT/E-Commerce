@@ -23,7 +23,10 @@ const CartTable = () => {
           <tr key={c.Item._id} className="  h-16">
             <td className=" p-0 ">{index + 1}</td>
             <td className="flex items-center justify-center h-full gap-1 px-1 py-2 w-fit  ">
-              <Link to={`/products/${c.Item._id}`} className="flex items-center">
+              <Link
+                to={`/products/${c.Item._id}`}
+                className="flex items-center"
+              >
                 <img
                   src={c.Item.images[0]}
                   alt="product img"
@@ -32,7 +35,9 @@ const CartTable = () => {
                 <div>{c.Item.name}</div>
               </Link>
             </td>
-            <td className=" w-12  px-1 py-2 text-green-700">{c.Item.price}$</td>
+            <td className=" w-12  px-1 py-2 text-green-700">
+              {c.Item.finalPrice > 0 ? c.Item.finalPrice : c.Item.price}$
+            </td>
             <td className=" w-8  px-1 py-2 ">
               <div className="flex flex-row items-center w-fit px-1   border  border-gray-500 rounded-lg text-xs sm:text-lg ">
                 <button className="px-1 " onClick={() => removeCart(c.Item)}>

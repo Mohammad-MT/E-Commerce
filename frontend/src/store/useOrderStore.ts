@@ -7,6 +7,7 @@ type orderItem = {
   productId?: string;
   name: string;
   price: number;
+  finalPrice: number;
   quantity: number;
 };
 
@@ -84,7 +85,7 @@ export const useOrderStore = create<OrderStore>((set) => ({
         isSuccess: true,
       }));
 
-      toast.success("Product added successfully");
+      toast.success("Order added successfully");
     } catch (error: any) {
       toast.error(error.response.data.message);
       console.log("Error in add new order store", error.message);
@@ -105,7 +106,7 @@ export const useOrderStore = create<OrderStore>((set) => ({
     } catch (error: any) {
       toast.error(error.response.data.message);
       console.log("Error in update order store", error.message);
-    } 
+    }
   },
   removeOrder: async (order) => {
     try {
@@ -119,5 +120,4 @@ export const useOrderStore = create<OrderStore>((set) => ({
       console.log("Error in remove order store", error.message);
     }
   },
-
 }));

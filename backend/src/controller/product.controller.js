@@ -176,3 +176,25 @@ export const uploadProductImage = async (req, res) => {
     res.status(500).json({ message: "Server error", error });
   }
 };
+
+//admin route access *
+export const applyDiscountToProduct = async (req, res) => {
+  try {
+    const { discountType, discountValue } = req.body;
+
+    const product = await Product.findById(req.params.productId);
+    if (!product) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+
+    product.discountType = discountType;
+    product.discountValue = discountValue;
+
+    await product.save();
+    res
+      .status(200)
+      .json({ message: "Discount applied successfully", data: product });
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error });
+  }
+};

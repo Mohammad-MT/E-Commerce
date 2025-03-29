@@ -16,16 +16,32 @@ const productSchema = new mongoose.Schema(
       required: true,
     },
     category: { type: String },
-    // category: { type: mongoose.Schema.Types.ObjectId, ref: "Category" },
+    discount: { type: Number, default: 0 },
     stock: { type: Number, required: true },
-    ratings: { type: Number, default: 0 },
-    reviews: [{ type: mongoose.Schema.Types.ObjectId, ref: "Review" }],
     images: {
       type: [String],
     },
+    discountType: {
+      type: String,
+      enum: ["percentage", "fixed"],
+      default: null,
+    }, // Discount type
+    discountValue: { type: Number, default: 0 }, // Discount amount (percentage or fixed)
+    finalPrice: { type: Number }, // Price after discount
   },
   { timestamps: true }
 );
+
+productSchema.pre("save", function (next) {
+  if (this.discountType === "percentage") {
+    this.finalPrice = this.price - (this.price * this.discountValue) / 100;
+  } else if (this.discountType === "fixed") {
+    this.finalPrice = Math.max(this.price - this.discountValue, 0);
+  } else {
+    this.finalPrice = this.price;
+  }
+  next();
+});
 
 export const Product = mongoose.model("Product", productSchema);
 
@@ -80,7 +96,6 @@ export const productValidationSchemaForEdit = (newProduct) => {
       "number.integer": "Stock must be an integer",
       "number.min": "Stock cannot be negative",
     }),
-    
   });
   return schema.validate(newProduct);
 };

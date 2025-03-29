@@ -72,6 +72,10 @@ const ProductsPage = () => {
                       description={p.description}
                       images={p.images}
                       stock={p.stock}
+                      category={p.category}
+                      finalPrice={p.finalPrice}
+                      discountType={p.discountType}
+                      discountValue={p.discountValue}
                     />
                   ))}
                 </div>
