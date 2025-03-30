@@ -4,7 +4,11 @@ import Joi from "joi";
 const orderSchema = new mongoose.Schema(
   {
     userInfo: {
-      _id: { type: mongoose.Schema.Types.ObjectId, ref:"User", required: true },
+      _id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        required: true,
+      },
       name: { type: String, required: true },
       email: { type: String, required: true },
     },
@@ -18,6 +22,7 @@ const orderSchema = new mongoose.Schema(
         name: { type: String, required: true },
         quantity: { type: Number, required: true },
         price: { type: Number, required: true },
+        finalPrice: { type: Number, required: true },
       },
     ],
     totalAmount: { type: Number, required: true },
@@ -50,9 +55,11 @@ export const validateOrders = (order) => {
         "string.email": "User email must be a valid email address.",
         "string.empty": "User email cannot be empty.",
       }),
-    }).required().messages({
-      "any.required": "User information is required.",
-    }),
+    })
+      .required()
+      .messages({
+        "any.required": "User information is required.",
+      }),
     items: Joi.array()
       .items(
         Joi.object({
@@ -71,6 +78,10 @@ export const validateOrders = (order) => {
           price: Joi.number().greater(0).required().messages({
             "any.required": "Price is required.",
             "number.greater": "Price must be greater than 0.",
+          }),
+          finalPrice: Joi.number().greater(0).required().messages({
+            "any.required": "finalPrice is required.",
+            "number.greater": "finalPrice must be greater than 0.",
           }),
         })
       )

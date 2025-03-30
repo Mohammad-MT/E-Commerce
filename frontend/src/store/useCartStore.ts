@@ -90,7 +90,6 @@ export const useCartStore = create<CartState>((set, get) => ({
         };
         itemsInCart.push(item);
       });
-      console.log(itemsInCart)
       await apiClient.post("/carts/", {
         items: itemsInCart,
       });
@@ -106,7 +105,7 @@ export const useCartStore = create<CartState>((set, get) => ({
         );
         let updatedCart: CartItem[] = [];
 
-        if (existingItem) {
+        if (existingItem && existingItem.quantity > 0) {
           if (existingItem.quantity >= product.stock) {
             toast.error("Item out of stock");
             updatedCart = state.cart;
@@ -120,7 +119,8 @@ export const useCartStore = create<CartState>((set, get) => ({
         } else {
           if (product._id) {
             if (product.stock === 0) {
-              toast.error("Item out of stock");
+              toast.error("Item out of stock!");
+              updatedCart = state.cart;
             } else {
               updatedCart = [
                 ...state.cart,

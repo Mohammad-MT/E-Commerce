@@ -35,7 +35,7 @@ const CheckOut = () => {
       </div>
       <div className="flex justify-between ">
         <p>Delivery Charge:</p>
-        <p> +5.00$</p>
+        <p>+$5.00</p>
       </div>
       <div className=" divider"></div>
       <div className="">
@@ -65,9 +65,9 @@ const CheckOut = () => {
               name: item.productId.name,
               quantity: item.quantity,
               price: item.productId.price,
-              finalPrice:
-                item.productId.finalPrice ??
-                item.productId.price * item.quantity,
+              finalPrice: item.productId.finalPrice
+                ? item.productId.finalPrice
+                : item.productId.price * item.quantity,
             })),
             userInfo: {
               _id: authUser!._id,

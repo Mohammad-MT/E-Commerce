@@ -32,8 +32,8 @@ const HistoryPage = () => {
                   </td>
                 </tr>
               ) : (
-                myorders.map((order, index) => (
-                  <tr key={index} className="hover:bg-base-200 ">
+                myorders.map((order) => (
+                  <tr key={order._id} className="hover:bg-base-200 ">
                     <td>{order._id}</td>
                     <td>
                       {order.items?.map((i) => (

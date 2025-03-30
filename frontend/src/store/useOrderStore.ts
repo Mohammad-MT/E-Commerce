@@ -91,7 +91,7 @@ export const useOrderStore = create<OrderStore>((set) => ({
       console.log("Error in add new order store", error.message);
       set({ isSuccess: false });
     } finally {
-      useCartStore.getState().removeAllItemFromCart();
+      useCartStore.getState().clearCart();
     }
   },
   updateStatus: async (order) => {
