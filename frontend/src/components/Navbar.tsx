@@ -11,8 +11,7 @@ import SearchNav from "./SearchNav";
 
 const Navbar = () => {
   const { authUser } = useAuthStore();
-  const { itemCount } = useCartStore();
-  const cartCount = itemCount();
+  const { totalAmount } = useCartStore();
 
   return (
     <div className="  flex justify-center  pt-4 mx-1 ">
@@ -85,9 +84,9 @@ const Navbar = () => {
           </span>
           <Link to={"/cart"}>
             <span className=" hover:text-pink-700  cursor-pointer relative">
-              {cartCount > 0 && (
-                <div className=" absolute badge bg-pink-700  text-gray-200 bottom-4 start-2 ">
-                  {cartCount}
+              {totalAmount > 0 && (
+                <div className=" absolute px-2 ms-1 badge bg-pink-700  text-gray-200 bottom-4 start-2 ">
+                  {totalAmount}
                 </div>
               )}
               <ShoppingCart />

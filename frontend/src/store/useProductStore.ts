@@ -3,7 +3,7 @@ import apiClient from "../services/apiClient";
 import toast from "react-hot-toast";
 
 export type Item = {
-  _id?: string;
+  _id: string;
   name: string;
   price: number;
   description: string;
@@ -12,7 +12,7 @@ export type Item = {
   category?: string;
   discountType?: "percentage" | "fixed";
   discountValue?: number;
-  finalPrice: number;
+  finalPrice?: number;
 };
 
 type ProductState = {

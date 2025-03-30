@@ -1,6 +1,7 @@
 import toast from "react-hot-toast";
 import { create } from "zustand";
 import apiClient from "../services/apiClient";
+import { useCartStore } from "./useCartStore";
 
 export type UserType = {
   _id: string;
@@ -79,6 +80,7 @@ export const useAuthStore = create<AuthState>((set) => ({
       console.log(error.response.data.message);
       toast.error(error.response.data.message);
     } finally {
+      useCartStore.getState().setLogin(true);
       set({ isLoggingIn: false });
     }
   },
@@ -87,6 +89,7 @@ export const useAuthStore = create<AuthState>((set) => ({
     try {
       await apiClient.post("/users/logout");
       set({ authUser: null });
+      useCartStore.getState().setLogin(false);
       toast.success("Logged out successfully");
     } catch (error: any) {
       console.log(error.response.data.message);

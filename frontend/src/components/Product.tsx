@@ -6,10 +6,10 @@ interface Prop {
 }
 
 const Product = ({ product }: Prop) => {
-  const { addCart, removeCart, Cart } = useCartStore();
+  const { addCart, removeCart, cart } = useCartStore();
 
-  const productCount = Cart.find((c) => {
-    return c.Item._id === product._id;
+  const productCount = cart.find((c) => {
+    return c.productId._id === product._id;
   });
 
   return (
@@ -59,12 +59,12 @@ const Product = ({ product }: Prop) => {
               <div className="flex items-center border border-gray-300 rounded-lg text-xl">
                 <button
                   className="px-4 py-2"
-                  onClick={() => removeCart(product)}
+                  onClick={() => product._id && removeCart(product._id)}
                 >
                   -
                 </button>
                 <p className="px-4 py-2 text-center">
-                  {productCount ? productCount.count : 0}
+                  {productCount ? productCount.quantity : 0}
                 </p>
                 <button
                   className="px-4 py-2"

@@ -1,138 +1,213 @@
 import { create } from "zustand";
 import { Item } from "./useProductStore";
+import apiClient from "../services/apiClient";
+import { useAuthStore } from "./useAuthStore";
 import toast from "react-hot-toast";
 
-export type CartType = {
-  Item: Item;
-  count: number;
+export type CartItem = {
+  _id?: string;
+  quantity: number;
+  productId: Item;
 };
 
 type CartState = {
-  Cart: CartType[];
-  checkCart: () => void;
-  addCart: (Item: Item) => void;
-  removeCart: (Item: Item) => void;
-  removeItemCart: (Item: Item) => void;
-  removeAllItemFromCart: () => void;
-  calcTotalPrice: () => number;
-  itemCount: () => number;
+  cart: CartItem[];
+  isSyncing: boolean;
+  isLogin: boolean;
+  totalAmount: number;
+  loadCart: () => void;
+  syncCartWithBackend: () => void;
+  setLogin: (status: boolean) => void;
+  updateBackendCart: () => void;
+  addCart: (product: Item) => void;
+  removeCart: (productId: string) => void;
+  removeItemFromCart: (productId: string) => void;
+  clearCart: () => void;
+  calculateTotal: () => void;
 };
 
-export const useCartStore = create<CartState>((set, get) => ({
-  Cart: [],
-  checkCart: async () => {
-    try {
-      const items = localStorage.getItem("cartItem");
+const saveCartToLocalStorage = (cart: CartItem[]) =>
+  localStorage.setItem("cartItemNew", JSON.stringify(cart));
+const loadCartFromLocalStorage = () =>
+  JSON.parse(localStorage.getItem("cartItemNew") || "[]");
 
-      if (items) set({ Cart: JSON.parse(items) });
-      else set({ Cart: [] });
+export const useCartStore = create<CartState>((set, get) => ({
+  cart: [],
+  totalAmount: 0,
+  isSyncing: false,
+  isLogin: false,
+  setLogin: (status) => {
+    set(() => ({ isLogin: status }));
+  },
+  loadCart: () => {
+    try {
+      const localCart = loadCartFromLocalStorage();
+      if (localCart) {
+        set({ cart: localCart });
+      } else {
+        get().syncCartWithBackend();
+      }
+      get().calculateTotal();
     } catch (error: any) {
       console.log("Error in check cart store", error.message);
-      set({ Cart: [] });
+      set({ cart: [] });
     }
   },
-  addCart: (Item) => {
+  syncCartWithBackend: async () => {
+    const { cart, isLogin } = get();
+
+    if (!isLogin) return;
+
+    set({ isSyncing: true });
     try {
-      const oldCart = get().Cart;
-
-      const itemInCart = oldCart.find((c) => c.Item._id === Item._id);
-
-      if (itemInCart && itemInCart.count > 0) {
-        if (itemInCart.count >= Item.stock) {
-          toast.error("Item out of stock");
-        } else {
-          oldCart.map((c) => {
-            if (c.Item._id === Item._id) {
-              c.count += 1;
-            }
-          });
-
-          localStorage.setItem("cartItem", JSON.stringify(oldCart));
-          set({ Cart: oldCart });
-        }
+      const res = await apiClient.get("/carts/");
+      if (res.data) {
+        set({ cart: res.data });
+        saveCartToLocalStorage(res.data);
       } else {
-        if (Item.stock === 0) {
-          toast.error("Item out of stock");
-        } else {
-          localStorage.setItem(
-            "cartItem",
-            JSON.stringify([...oldCart, { Item, count: 1 }])
-          );
-          toast.success("Item added to cart");
-          set({ Cart: [...oldCart, { Item, count: 1 }] });
-        }
+        await apiClient.post("/carts/", { items: cart });
       }
+    } catch (error) {
+      console.error("Cart sync error:", error);
+    } finally {
+      set({ isSyncing: false });
+      get().calculateTotal();
+    }
+  },
+  // Update backend cart
+  updateBackendCart: async () => {
+    const { cart } = get();
+
+    const user = await useAuthStore.getState().authUser;
+    if (!user) return;
+
+    try {
+      const itemsInCart: { quantity: number; productId: string }[] = [];
+      cart.forEach((c) => {
+        const item = {
+          productId: c.productId._id,
+          quantity: c.quantity,
+        };
+        itemsInCart.push(item);
+      });
+      console.log(itemsInCart)
+      await apiClient.post("/carts/", {
+        items: itemsInCart,
+      });
+    } catch (error) {
+      console.error("Cart update error:", error);
+    }
+  },
+  addCart: (product) => {
+    try {
+      set((state) => {
+        const existingItem = state.cart.find(
+          (item) => item.productId._id === product._id
+        );
+        let updatedCart: CartItem[] = [];
+
+        if (existingItem) {
+          if (existingItem.quantity >= product.stock) {
+            toast.error("Item out of stock");
+            updatedCart = state.cart;
+          } else {
+            updatedCart = state.cart.map((item) =>
+              item.productId._id === product._id
+                ? { ...item, quantity: item.quantity + 1 }
+                : item
+            );
+          }
+        } else {
+          if (product._id) {
+            if (product.stock === 0) {
+              toast.error("Item out of stock");
+            } else {
+              updatedCart = [
+                ...state.cart,
+                { productId: product, quantity: 1 },
+              ];
+              toast.success("Item added to cart");
+            }
+          } else {
+            console.error("Product ID is undefined");
+            updatedCart = state.cart;
+          }
+        }
+
+        saveCartToLocalStorage(updatedCart);
+        return { cart: updatedCart };
+      });
+
+      get().calculateTotal();
+      get().updateBackendCart();
     } catch (error: any) {
       console.log("Error in add cart store", error.message);
     }
   },
-  removeCart: (Item) => {
+  removeCart: (productId) => {
     try {
-      const oldCart = get().Cart;
+      set((state) => {
+        const existingItem = state.cart.find(
+          (item) => item.productId._id === productId
+        );
+        const updatedCart = state.cart;
 
-      const itemInCart = oldCart.find((c) => c.Item._id === Item._id);
-      if (itemInCart) {
-        oldCart.map((c, index) => {
-          if (c.Item._id === Item._id) {
-            if (c.count > 1) {
-              c.count -= 1;
-            } else {
-              oldCart.splice(index, 1);
+        if (existingItem) {
+          updatedCart.map((item, index) => {
+            if (item.productId._id === productId) {
+              if (item.quantity > 1) {
+                item.quantity -= 1;
+              } else {
+                updatedCart.splice(index, 1);
+                toast.error("Item removed from cart");
+              }
             }
-          }
-        });
-
-        localStorage.setItem("cartItem", JSON.stringify(oldCart));
-        set({ Cart: oldCart });
-      }
+          });
+        }
+        saveCartToLocalStorage(updatedCart);
+        get().calculateTotal();
+        get().updateBackendCart();
+        return { cart: updatedCart };
+      });
     } catch (error: any) {
       console.log("Error in remove cart store", error.message);
     }
   },
-  removeItemCart: (Item) => {
+  removeItemFromCart: (productId) => {
     try {
-      const oldCart = get().Cart;
+      let updatedCart: CartItem[] = [];
+      set((state) => {
+        updatedCart = state.cart.filter(
+          (item) => item.productId._id !== productId
+        );
+        toast.error("Item removed from cart");
 
-      const itemInCart = oldCart.find((c) => c.Item._id === Item._id);
-      if (itemInCart) {
-        oldCart.map((c, index) => {
-          if (c.Item._id === Item._id) {
-            oldCart.splice(index, 1);
-          }
-        });
-
-        localStorage.setItem("cartItem", JSON.stringify(oldCart));
-        set({ Cart: oldCart });
-      }
+        saveCartToLocalStorage(updatedCart);
+        return { cart: updatedCart };
+      });
+      get().calculateTotal();
+      get().updateBackendCart();
     } catch (error: any) {
       console.log("Error in remove cart store", error.message);
     }
   },
-  removeAllItemFromCart: () => {
+  clearCart: async () => {
     try {
-      localStorage.setItem("cartItem", JSON.stringify([]));
-      set({ Cart: [] });
+      set({ cart: [], totalAmount: 0 });
+      localStorage.removeItem("cartItem");
+
+      const user = await useAuthStore.getState().authUser;
+      if (user) {
+        await apiClient.delete("/carts/");
+      }
     } catch (error: any) {
       console.log("Error in remove all item from cart store", error.message);
     }
   },
-  calcTotalPrice: () => {
-    const cart = get().Cart;
-
-    let total = 0;
-    cart.map((c) => {
-      total += c.Item.price * c.count;
+  calculateTotal: () => {
+    set((state) => {
+      const total = state.cart.reduce((acc, item) => acc + item.quantity, 0);
+      return { totalAmount: total };
     });
-
-    return total;
-  },
-  itemCount: () => {
-    const cart = get().Cart;
-
-    let count = 0;
-    cart.map((c) => {
-      count += c.count;
-    });
-    return count;
   },
 }));

@@ -1,13 +1,23 @@
-import { useAuthStore } from "../store/useAuthStore";
-import { useCartStore } from "../store/useCartStore";
-import { useOrderStore } from "../store/useOrderStore";
+import { useAuthStore } from "../../store/useAuthStore";
+import { useCartStore } from "../../store/useCartStore";
+import { useOrderStore } from "../../store/useOrderStore";
 
 const CheckOut = () => {
-  const { calcTotalPrice, Cart } = useCartStore();
+  const { cart } = useCartStore();
   const { authUser } = useAuthStore();
   const { addNewOrder } = useOrderStore();
 
-  const TotalPrice = calcTotalPrice();
+  const TotalPrice = () => {
+    let total = 0;
+    cart.map((c) => {
+      total +=
+        c.quantity *
+        (c.productId.finalPrice !== undefined
+          ? c.productId.finalPrice
+          : c.productId.price);
+    });
+    return Math.ceil(total * 100) / 100;
+  };
 
   if (!authUser) {
     return (
@@ -21,7 +31,7 @@ const CheckOut = () => {
     <div className="border border-base-300 rounded-lg flex flex-col gap-2 p-5 m-0 h-fit w-72 bg-base-200 ">
       <div className="font-bold text-xl flex justify-between  ">
         <h2>Total:</h2>
-        <h2>${TotalPrice}</h2>
+        <h2>${TotalPrice()}</h2>
       </div>
       <div className="flex justify-between ">
         <p>Delivery Charge:</p>
@@ -43,18 +53,21 @@ const CheckOut = () => {
       <div className=" divider"></div>
       <div className="font-bold text-xl flex justify-between">
         <h2>Grand Total:</h2>
-        <h2>${TotalPrice + 5}</h2>
+        <h2>${TotalPrice() + 5}</h2>
       </div>
       <button
         className="btn btn-neutral bg-black w-full"
         onClick={() =>
           addNewOrder({
-            totalAmount: TotalPrice + 5,
-            items: Cart.map((item) => ({
-              productId: item.Item!._id,
-              name: item.Item!.name,
-              quantity: item!.count,
-              price: item.Item!.price,
+            totalAmount: TotalPrice() + 5,
+            items: cart.map((item) => ({
+              productId: item.productId._id,
+              name: item.productId.name,
+              quantity: item.quantity,
+              price: item.productId.price,
+              finalPrice:
+                item.productId.finalPrice ??
+                item.productId.price * item.quantity,
             })),
             userInfo: {
               _id: authUser!._id,

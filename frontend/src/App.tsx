@@ -13,7 +13,7 @@ import SignUpPage from "./pages/SignUpPage";
 import ProductPage from "./pages/ProductPage";
 import ShopCartPage from "./pages/ShopCartPage";
 import ProfilePage from "./pages/ProfilePage";
-import HistoryPage from "./pages/HistoryPage"; //soon
+import HistoryPage from "./pages/HistoryPage";
 import Page404 from "./pages/Page404";
 
 import { useAuthStore } from "./store/useAuthStore";
@@ -29,14 +29,16 @@ function App() {
   const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
   const { setProductsPaginated, page, limit, filter, isAddingProduct } =
     useProductStore();
-  const { checkCart } = useCartStore();
+  const { loadCart, syncCartWithBackend, isLogin } = useCartStore();
   const { theme, checkTheme } = useThemeStore();
 
   useEffect(() => {
     checkAuth();
-    checkCart();
+
+    loadCart();
+    if (isLogin) syncCartWithBackend();
     checkTheme();
-  }, [checkAuth, checkCart, checkTheme]);
+  }, [checkAuth, checkTheme, syncCartWithBackend, loadCart, isLogin]);
 
   useEffect(() => {
     setProductsPaginated(page, limit, filter);

@@ -1,18 +1,18 @@
 import { Link } from "react-router-dom";
 import Breadcrumbs from "../components/Breadcrumbs";
-import CartTable from "../components/CartTable";
-import CheckOut from "../components/CheckOut";
+import CartTable from "../components/shopCart/CartTable";
+import CheckOut from "../components/shopCart/CheckOut";
 import { useCartStore } from "../store/useCartStore";
 
 const ShopCartPage = () => {
-  const { Cart } = useCartStore();
+  const { cart } = useCartStore();
 
   return (
     <div className="min-h-[calc(100vh-24.2rem)]   px-5 ">
       <div className=" flex flex-col items-center justify-center">
         <div className="max-w-5xl h-full w-full ">
           <Breadcrumbs paths={[{ name: "Cart", path: "/cart" }]} />
-          {Cart.length > 0 ? (
+          {cart.length > 0 ? (
             <div className=" w-full flex justify-between  flex-col lg:flex-row ">
               <CartTable />
               <div className="flex justify-end">
