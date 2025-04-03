@@ -2,16 +2,17 @@ import { useState } from "react";
 import ProductForm from "../components/adminPanel/AddProductForm";
 import AdminTable from "../components/adminPanel/AdminOrdersTable";
 import AllProductTable from "../components/adminPanel/AdminAllProductTable";
+import Discount from "../components/adminPanel/Discount";
 
 const menuItems = [
-  { lable: "Add Product", direction: <ProductForm /> },
+  { lable: "All Products", direction: <AllProductTable /> },
   { lable: "Orders", direction: <AdminTable /> },
-  { lable: " All Products", direction: <AllProductTable /> },
-  // { lable: "Manage users", direction: < /> },
+  { lable: "Add New Product", direction: <ProductForm /> },
+  { lable: "Discount", direction: <Discount /> },
 ];
 
 const AdminPanelPage = () => {
-  const [selectedItem, setSelectedItem] = useState<string>("Add Product");
+  const [selectedItem, setSelectedItem] = useState<string>("All Products");
 
   return (
     <div className="max-w-6xl min-h-[calc(100vh-24.2rem)] mx-auto  ">

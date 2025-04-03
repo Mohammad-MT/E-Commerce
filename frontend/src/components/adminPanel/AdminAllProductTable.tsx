@@ -30,6 +30,7 @@ const AllProductTable = () => {
                 <th>name</th>
                 <th>price</th>
                 <th>stock</th>
+                <th>Discount</th>
                 <th>edit</th>
                 <th>remove</th>
               </tr>
@@ -42,6 +43,7 @@ const AllProductTable = () => {
                     name: p.name,
                     price: p.price,
                     stock: p.stock,
+                    discountValue: p.discountValue || 0
                   }}
                   index={index}
                   key={p._id}

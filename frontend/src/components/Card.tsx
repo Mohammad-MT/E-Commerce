@@ -22,18 +22,17 @@ const Card = ({
         id="card"
       >
         <figure className="relative">
-          {!images[0] ? (
-            <div className="skeleton h-32 w-full flex items-center justify-center"></div>
-          ) : (
-            <img src={images[0]} alt={name} className=" min-h-72 " />
-          )}
+          {<img src={images[0]} className=" min-h-72 " />}
+
           {discountType === "percentage" &&
-            discountValue &&
-            discountValue > 0 && (
-              <button className="p-3 px-2 text-white bg-pink-600  rounded-full absolute top-3 start-3">
-                {discountValue}%
-              </button>
-            )}
+          discountValue &&
+          discountValue > 0 ? (
+            <button className="p-3 px-2 text-white bg-pink-600  rounded-full absolute top-3 start-3">
+              {discountValue}%
+            </button>
+          ) : (
+            ""
+          )}
 
           <button
             className="btn opacity-90 border border-base-300 w-1/2 absolute bottom-2  hidden"

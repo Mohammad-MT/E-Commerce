@@ -7,6 +7,7 @@ type productInfo = {
   name: string;
   price: number;
   stock: number;
+  discountValue: number;
 };
 const ProductTR = ({
   productInfo,
@@ -63,6 +64,19 @@ const ProductTR = ({
           />
         </td>
         <td>
+          <input
+            className="input border-base-300 max-w-28"
+            type="number"
+            defaultValue={editProduct.discountValue}
+            onChange={(e) => {
+              setEditProduct({
+                ...productInfo,
+                discountValue: parseInt(e.currentTarget.value),
+              });
+            }}
+          />
+        </td>
+        <td>
           <button onClick={() => setEditMode(!editMode)}>
             {editMode ? (
               <Check
@@ -72,7 +86,8 @@ const ProductTR = ({
                     editProduct.id,
                     editProduct.name,
                     editProduct.price,
-                    editProduct.stock
+                    editProduct.stock,
+                    editProduct.discountValue
                   )
                 }
               />
@@ -96,6 +111,7 @@ const ProductTR = ({
 
         <td className="text-green-800 drop-shadow-sm">{productInfo.price}$</td>
         <td>{productInfo.stock}</td>
+        <td>{productInfo.discountValue}%</td>
         <td>
           <button onClick={() => setEditMode(!editMode)}>
             {editMode ? (

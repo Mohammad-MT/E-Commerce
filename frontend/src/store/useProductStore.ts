@@ -46,13 +46,21 @@ type ProductState = {
   }) => void;
   selectedProduct: (id: string) => void;
   isAddingProduct: boolean;
-  addNewProduct: (product: Item) => void;
+  addNewProduct: (product: {
+    name: string;
+    price: number;
+    description: string;
+    images: string[];
+    stock: number;
+    category: string;
+  }) => void;
   isUpdateingProduct: boolean;
   updateProduct: (
     id: string,
     name: string,
     price: number,
-    stock: number
+    stock: number,
+    discountValue: number
   ) => void;
   isDeletingProduct: boolean;
   deleteProduct: (id: string) => void;
@@ -147,10 +155,16 @@ export const useProductStore = create<ProductState>((set) => ({
     }
   },
   isUpdateingProduct: false,
-  updateProduct: async (id, name, price, stock) => {
+  updateProduct: async (id, name, price, stock, discountValue) => {
     set({ isUpdateingProduct: true });
     try {
-      await apiClient.put(`/products/${id}`, { name, price, stock });
+      await apiClient.put(`/products/${id}`, {
+        name,
+        price,
+        stock,
+        discountValue,
+        discountType: "percentage",
+      });
       toast.success("Product updated successfully");
     } catch (error: any) {
       toast.error(error.response.data.message);

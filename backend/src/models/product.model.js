@@ -24,7 +24,7 @@ const productSchema = new mongoose.Schema(
     discountType: {
       type: String,
       enum: ["percentage", "fixed"],
-      default: null,
+      default: "percentage",
     }, // Discount type
     discountValue: { type: Number, default: 0 }, // Discount amount (percentage or fixed)
     finalPrice: { type: Number }, // Price after discount
@@ -96,6 +96,16 @@ export const productValidationSchemaForEdit = (newProduct) => {
       "number.integer": "Stock must be an integer",
       "number.min": "Stock cannot be negative",
     }),
+    discountValue: Joi.number().min(0).optional().messages({
+      "number.base": "Discount value must be a number",
+      "number.min": "Discount value cannot be negative",
+    }),
+    discountType: Joi.string()
+      .valid("percentage", "fixed")
+      .optional()
+      .messages({
+        "any.only": "Discount type must be either 'percentage' or 'fixed'",
+      }),
   });
   return schema.validate(newProduct);
 };
