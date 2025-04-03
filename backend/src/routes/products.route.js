@@ -6,6 +6,7 @@ import {
   updateProduct,
   getSortedPaginatedProducts,
   getAllProducts,
+  getDiscountedProducts,
   uploadProductImage,
   applyDiscountToProduct,
 } from "../controller/product.controller.js";
@@ -18,6 +19,7 @@ const router = express.Router();
 router.get("/paginated", getSortedPaginatedProducts);
 router.get("/", getAllProducts);
 router.get("/:id", getProductById);
+router.get("/discount/limitoffer", getDiscountedProducts);
 
 //admin routes
 router.post("/", protectRoute, authorizeRole("admin"), createProduct);

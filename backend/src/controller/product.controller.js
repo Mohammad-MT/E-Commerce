@@ -204,3 +204,24 @@ export const applyDiscountToProduct = async (req, res) => {
     res.status(500).json({ message: "Server error", error });
   }
 };
+
+export const getDiscountedProducts = async (req, res) => {
+  try {
+    const discountedProducts = await Product.find({
+      discountType: { $exists: true },
+      discountValue: { $gt: 0 },
+    }).sort({ updatedAt: -1 });
+
+    if (discountedProducts.length === 0) {
+      return res.status(404).json({ message: "No discounted products found" });
+    }
+
+    res.json({ data: discountedProducts });
+  } catch (error) {
+    console.log(
+      "Error in getDiscountedProducts product.controller",
+      error.message
+    );
+    res.status(500).json({ message: "Server error", error });
+  }
+};

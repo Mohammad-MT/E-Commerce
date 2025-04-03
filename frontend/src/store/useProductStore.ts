@@ -18,6 +18,7 @@ export type Item = {
 type ProductState = {
   products: Item[];
   allProducts: Item[];
+  limitedOfferProducts: Item[];
   page: number;
   limit: number;
   filter: {
@@ -45,6 +46,8 @@ type ProductState = {
     maxPrice?: string;
   }) => void;
   selectedProduct: (id: string) => void;
+  getingDiscountedProducts: boolean;
+  setDiscountedProducts: () => void;
   isAddingProduct: boolean;
   addNewProduct: (product: {
     name: string;
@@ -72,6 +75,7 @@ type ProductState = {
 export const useProductStore = create<ProductState>((set) => ({
   products: [],
   allProducts: [],
+  limitedOfferProducts: [],
   page: 1,
   limit: 8,
   filter: {
@@ -184,6 +188,24 @@ export const useProductStore = create<ProductState>((set) => ({
       console.log("Error in delete Product store", error.message);
     } finally {
       set({ isDeletingProduct: false });
+    }
+  },
+  getingDiscountedProducts: false,
+  setDiscountedProducts: async () => {
+    set({ getingDiscountedProducts: true });
+    set({ limitedOfferProducts: [] });
+    try {
+      const res = await apiClient.get("/products/discount/limitoffer");
+      set({
+        limitedOfferProducts: res.data.data,
+        getingDiscountedProducts: false,
+      });
+    } catch (error: any) {
+      toast.error(error.response.data.message);
+      console.log("Error in get Discounted Products store", error.message);
+      set({ limitedOfferProducts: [] });
+    } finally {
+      set({ getingDiscountedProducts: false });
     }
   },
   uploading: false,

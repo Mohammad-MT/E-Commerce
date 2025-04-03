@@ -6,13 +6,20 @@ import { Pagination, Navigation, Keyboard } from "swiper/modules";
 import CardSkeleton from "../components/skeletons/CardSkeleton";
 
 import { Swiper, SwiperSlide } from "swiper/react";
+import { Item } from "../store/useProductStore";
+import Card from "./Card";
 
-const ProductSlider = () => {
+interface Prop {
+  products: Item[];
+  isLoading?: boolean;
+}
+
+const ProductSlider = ({ products, isLoading }: Prop) => {
   return (
     <div>
       <div className="my-12 max-w-6xl px-4 mx-auto ">
         <div className="my-4 bg-base-300 px-6 pt-4 rounded-2xl h-fit">
-          <h2 className="text-3xl font-bold ">Limited Offer</h2>
+          <h2 className="text-3xl font-bold ">Limited Offers</h2>
           <Swiper
             navigation={true}
             pagination={true}
@@ -34,18 +41,40 @@ const ProductSlider = () => {
             modules={[Navigation, Pagination, Keyboard]}
             className=""
           >
-            <SwiperSlide>
-              <CardSkeleton />
-            </SwiperSlide>
-            <SwiperSlide>
-              <CardSkeleton />
-            </SwiperSlide>
-            <SwiperSlide>
-              <CardSkeleton />
-            </SwiperSlide>
-            <SwiperSlide>
-              <CardSkeleton />
-            </SwiperSlide>
+            {isLoading ? (
+              <div>
+                <SwiperSlide>
+                  <CardSkeleton />
+                </SwiperSlide>
+                <SwiperSlide>
+                  <CardSkeleton />
+                </SwiperSlide>
+                <SwiperSlide>
+                  <CardSkeleton />
+                </SwiperSlide>
+                <SwiperSlide>
+                  <CardSkeleton />
+                </SwiperSlide>
+              </div>
+            ) : (
+              <div>
+                {products.map((p) => (
+                  <SwiperSlide key={p._id}>
+                    <Card
+                      _id={p._id}
+                      name={p.name}
+                      price={p.price}
+                      stock={p.stock}
+                      discountValue={p.discountValue}
+                      discountType={p.discountType}
+                      finalPrice={p.finalPrice}
+                      images={p.images}
+                      description={p.description}
+                    />
+                  </SwiperSlide>
+                ))}
+              </div>
+            )}
           </Swiper>
         </div>
       </div>
