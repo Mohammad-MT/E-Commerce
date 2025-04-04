@@ -60,17 +60,19 @@ const ProductSlider = ({ products, isLoading }: Prop) => {
               <div>
                 {products.map((p) => (
                   <SwiperSlide key={p._id}>
-                    <Card
-                      _id={p._id}
-                      name={p.name}
-                      price={p.price}
-                      stock={p.stock}
-                      discountValue={p.discountValue}
-                      discountType={p.discountType}
-                      finalPrice={p.finalPrice}
-                      images={p.images}
-                      description={p.description}
-                    />
+                    <div className="text-start">
+                      <Card
+                        _id={p._id}
+                        name={p.name}
+                        price={p.price}
+                        stock={p.stock}
+                        discountValue={p.discountValue}
+                        discountType={p.discountType}
+                        finalPrice={p.finalPrice}
+                        images={p.images}
+                        description={p.description}
+                      />
+                    </div>
                   </SwiperSlide>
                 ))}
               </div>

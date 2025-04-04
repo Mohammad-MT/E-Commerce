@@ -18,7 +18,7 @@ const Card = ({
   return (
     <div>
       <div
-        className="card card-compact border border-base-300 bg-base-100 w-full shadow-md transition-all duration-300 hover:cursor-pointer hover:shadow-xl"
+        className={`card card-compact border border-base-300 bg-base-100 w-full shadow-md transition-all duration-300 hover:cursor-pointer hover:shadow-xl }`}
         id="card"
       >
         <figure className="relative">
@@ -26,6 +26,7 @@ const Card = ({
 
           {discountType === "percentage" &&
           discountValue &&
+          stock > 0 &&
           discountValue > 0 ? (
             <button className="p-3 px-2 text-white bg-pink-600  rounded-full absolute top-3 start-3">
               {discountValue}%
@@ -34,26 +35,42 @@ const Card = ({
             ""
           )}
 
-          <button
-            className="btn opacity-90 border border-base-300 w-1/2 absolute bottom-2  hidden"
-            id="showBtnCart"
-            onClick={() => {
-              addCart({
-                _id,
-                name,
-                price,
-                description,
-                images,
-                stock,
-                finalPrice,
-              });
-            }}
-          >
-            <div className="flex justify-center items-center gap-2">
-              <span>Add to Cart</span>
-              <ShoppingCart />
-            </div>
-          </button>
+          {stock > 0 ? (
+            <button
+              className="btn opacity-90 border border-base-300 w-1/2 absolute bottom-2  hidden"
+              id="showBtnCart"
+              onClick={() => {
+                addCart({
+                  _id,
+                  name,
+                  price,
+                  description,
+                  images,
+                  stock,
+                  finalPrice,
+                });
+              }}
+            >
+              <div className="flex justify-center items-center gap-2">
+                <span>Add to Cart</span>
+                <ShoppingCart />
+              </div>
+            </button>
+          ) : (
+            <>
+              <div className=" absolute border border-base-200 w-full rounded rotate-45"></div>
+              <div className=" absolute border border-base-200 w-full rounded -rotate-45"></div>
+              <button
+                className="absolute rounded-2xl p-3 border border-base-100 bg-base-300 w-1/2   "
+                disabled
+              >
+                <div className="flex justify-center items-center gap-2 font-bold">
+                  <span>Out of Stock</span>
+                </div>
+              </button>
+            </>
+          )}
+
           <button
             className=" bg-white rounded-badge p-2 absolute end-3 top-3 hover:text-yellow-400  hidden"
             id="showBtnCart"
@@ -67,6 +84,7 @@ const Card = ({
             <p>{description}</p>
             {discountType === "percentage" &&
             discountValue &&
+            stock > 0 &&
             discountValue > 0 ? (
               <div className="flex gap-2">
                 <h3 className=" text-gray-400 text-lg line-through">
