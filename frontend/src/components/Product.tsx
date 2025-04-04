@@ -16,12 +16,14 @@ const Product = ({ product }: Prop) => {
     <div className="bg-base-100 shadow-xl rounded-lg p-5 max-w-4xl w-full border border-base-300 my-2 ">
       <div className="flex flex-col md:flex-row justify-between w-full gap-8 relative">
         {product.discountType === "percentage" &&
-          product.discountValue &&
-          product.discountValue > 0 && (
-            <button className="p-3 px-2 text-white bg-pink-600  rounded-full absolute top-2 start-2">
-              {product.discountValue}%
-            </button>
-          )}
+        product.discountValue &&
+        product.discountValue > 0 ? (
+          <button className="p-3 px-2 text-white bg-pink-600  rounded-full absolute top-2 start-2">
+            {product.discountValue}%
+          </button>
+        ) : (
+          ""
+        )}
         <div className="flex-1">
           <img
             src={product.images[0]}
