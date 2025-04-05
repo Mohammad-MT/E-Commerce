@@ -3,7 +3,7 @@ import { useCartStore } from "../../store/useCartStore";
 import { useOrderStore } from "../../store/useOrderStore";
 
 const CheckOut = () => {
-  const { cart } = useCartStore();
+  const { cart, clearCart } = useCartStore();
   const { authUser } = useAuthStore();
   const { addNewOrder } = useOrderStore();
 
@@ -57,7 +57,7 @@ const CheckOut = () => {
       </div>
       <button
         className="btn btn-neutral bg-black w-full"
-        onClick={() =>
+        onClick={() => {
           addNewOrder({
             totalAmount: TotalPrice() + 5,
             items: cart.map((item) => ({
@@ -74,8 +74,10 @@ const CheckOut = () => {
               name: authUser!.username,
               email: authUser!.email,
             },
-          })
-        }
+          });
+          clearCart();
+          window.location.href = "/history";
+        }}
       >
         Proceed to Checkout
       </button>

@@ -27,9 +27,9 @@ type CartState = {
 };
 
 const saveCartToLocalStorage = (cart: CartItem[]) =>
-  localStorage.setItem("cartItemNew", JSON.stringify(cart));
+  localStorage.setItem("cartItem", JSON.stringify(cart));
 const loadCartFromLocalStorage = () =>
-  JSON.parse(localStorage.getItem("cartItemNew") || "[]");
+  JSON.parse(localStorage.getItem("cartItem") || "[]");
 
 export const useCartStore = create<CartState>((set, get) => ({
   cart: [],
@@ -196,10 +196,7 @@ export const useCartStore = create<CartState>((set, get) => ({
       set({ cart: [], totalAmount: 0 });
       localStorage.removeItem("cartItem");
 
-      const user = await useAuthStore.getState().authUser;
-      if (user) {
-        await apiClient.delete("/carts/");
-      }
+      await apiClient.delete("/carts/");
     } catch (error: any) {
       console.log("Error in remove all item from cart store", error.message);
     }

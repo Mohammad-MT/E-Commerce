@@ -3,11 +3,16 @@ import { Cart, validateCart } from "../models/cart.model.js";
 // Get cart for logged-in user
 export const getCart = async (req, res) => {
   try {
-    const cart = await Cart.findOne({ userId: req.user.id }).populate(
+    // Check if user is logged in
+    if (!req.user) return res.status(401).json({ message: "Unauthorized" });
+
+    const cart = await Cart.findOne({ userId: req.user._id }).populate(
       "items.productId"
     );
 
-    if (!cart) res.status(404).json({ message: "Cart not found!" });
+    //if cart dosen't exist return empty array
+    if (!cart.items) res.json([]);
+
     res.json(cart.items);
   } catch (error) {
     res.status(500).json({ message: "Server error" });
@@ -17,7 +22,6 @@ export const getCart = async (req, res) => {
 // Update cart (Add or Remove items)
 export const updateCart = async (req, res) => {
   try {
-
     const { error, value } = validateCart(req.body);
     if (error)
       return res.status(400).json({ message: error.details[0].message });

@@ -37,7 +37,7 @@ const HistoryPage = () => {
                     <td>{order._id}</td>
                     <td>
                       {order.items?.map((i) => (
-                        <p className="py-1">
+                        <p className="py-1" key={i.productId}>
                           <Link
                             className="underline text-purple-700"
                             to={`/products/${i.productId}`}
