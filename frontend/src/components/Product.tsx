@@ -77,14 +77,29 @@ const Product = ({ product }: Prop) => {
                   +
                 </button>
               </div>
-              <button
-                className="btn btn-neutral flex-1"
-                onClick={() => {
-                  addCart(product);
-                }}
-              >
-                Add to Cart
-              </button>
+              {product.stock === 0 ? (
+                <button className="btn btn-neutral flex-1" disabled>
+                  Out of Stock
+                </button>
+              ) : productCount ? (
+                <button
+                  className="btn btn-neutral flex-1"
+                  onClick={() => {
+                    addCart(product);
+                  }}
+                >
+                  Update Cart
+                </button>
+              ) : (
+                <button
+                  className="btn btn-neutral flex-1"
+                  onClick={() => {
+                    addCart(product);
+                  }}
+                >
+                  Add to Cart
+                </button>
+              )}
             </div>
           </div>
         </div>
