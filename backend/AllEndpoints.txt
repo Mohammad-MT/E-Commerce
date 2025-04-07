@@ -1,0 +1,49 @@
+# API Route Endpoints
+
+## User Routes
+- POST /api/users/signup - Register a new user
+- POST /api/users/login - User login
+- POST /api/users/logout - User login
+
+- GET /api/users/check - check authentication (requires authentication)
+- POST /api/users/updateProfileImg - update Profile Imag (requires authentication)
+
+## Product Routes
+- GET /api/products - Get all products
+- GET /api/products/paginated - Get all products paginated
+- GET /api/products/:id - Get product by ID
+- GET /api/products/discount/limitoffer - Get products with discount
+
+- POST /api/products - Create a new product (requires admin)
+- PUT /api/products/:id - Update product by ID (requires admin)
+- DELETE /api/products/:id - Delete product by ID (requires admin)
+- POST /api/products/uploadImage - upload Image for product (requires admin)
+- POST /api/products/discount/:productId - apply Discount To Product (requires admin)
+
+## Order Routes
+- POST /api/orders - Create a new order (requires authentication)
+- GET /api/orders/my-orders - Get user order (requires authentication)
+
+- GET /api/orders/ - Get all orders (requires admin)
+- PUT /api/orders/:id - Update order  (requires admin)
+- DELETE /api/orders/:id - delete order (requires admin)
+
+## Cart Routes
+- GET /api/carts - Get cart items (requires authentication)
+- POST /api/carts - update cart (requires authentication)
+- DELETE /api/carts/:id - clear cart (requires authentication)
+
+
+
+## Review Route
+- GET /api/reviews/:productId - get all reviews for productId
+
+- POST /api/reviews - create new for product (requires authentication) 
+
+- PUT /api/reviews/:id - update review text (requires admin)
+- PUT /api/reviews/:id - remove review by id (requires admin)
+
+## Category Routes
+- GET /api/categories/getall - Get all categories
+
+- POST /api/categories/add - Create a new category (requires admin)
