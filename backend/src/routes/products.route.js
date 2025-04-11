@@ -13,30 +13,46 @@ import {
 import protectRoute from "../middleware/protectRoute.js";
 import authorizeRole from "../middleware/authorizeRole.js";
 import upload from "../middleware/uploadImg.js";
+import asyncMiddleware from "../middleware/async.js";
 
 const router = express.Router();
 
-router.get("/paginated", getSortedPaginatedProducts);
-router.get("/", getAllProducts);
-router.get("/:id", getProductById);
-router.get("/discount/limitoffer", getDiscountedProducts);
+router.get("/paginated", asyncMiddleware(getSortedPaginatedProducts));
+router.get("/", asyncMiddleware(getAllProducts));
+router.get("/:id", asyncMiddleware(getProductById));
+router.get("/discount/limitoffer", asyncMiddleware(getDiscountedProducts));
 
 //admin routes
-router.post("/", protectRoute, authorizeRole("admin"), createProduct);
-router.put("/:id", protectRoute, authorizeRole("admin"), updateProduct);
-router.delete("/:id", protectRoute, authorizeRole("admin"), deleteProduct);
+router.post(
+  "/",
+  asyncMiddleware(protectRoute),
+  authorizeRole("admin"),
+  asyncMiddleware(createProduct)
+);
+router.put(
+  "/:id",
+  asyncMiddleware(protectRoute),
+  authorizeRole("admin"),
+  asyncMiddleware(updateProduct)
+);
+router.delete(
+  "/:id",
+  asyncMiddleware(protectRoute),
+  authorizeRole("admin"),
+  asyncMiddleware(deleteProduct)
+);
 router.post(
   "/uploadImage",
-  protectRoute,
+  asyncMiddleware(protectRoute),
   authorizeRole("admin"),
   upload.single("productImage"),
-  uploadProductImage
+  asyncMiddleware(uploadProductImage)
 );
 router.post(
   "/discount/:productId",
-  protectRoute,
+  asyncMiddleware(protectRoute),
   authorizeRole("admin"),
-  applyDiscountToProduct
+  asyncMiddleware(applyDiscountToProduct)
 );
 
 export default router;

@@ -13,6 +13,7 @@ import orderRoutes from "./routes/order.route.js";
 import categoryRoutes from "./routes/category.route.js";
 import reviewRoutes from "./routes/review.route.js";
 import cartRoutes from "./routes/cart.route.js";
+import errorHandler from "./middleware/error.js";
 
 const __dirname = path.resolve();
 
@@ -49,6 +50,8 @@ app.use("/api/carts/", cartRoutes);
 app.use("/api/orders/", orderRoutes);
 app.use("/api/categories/", categoryRoutes);
 app.use("/api/reviews/", reviewRoutes);
+
+app.use(errorHandler);
 
 // Middleware for serving static img files
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));

@@ -7,15 +7,16 @@ import {
   updateProfile,
 } from "../controller/user.controller.js";
 import protectRoute from "../middleware/protectRoute.js";
+import asyncMiddleware from "../middleware/async.js";
 
 const route = express.Router();
 
-route.post("/signup", signup);
-route.post("/login", login);
-route.post("/logout", logout);
+route.post("/signup", asyncMiddleware(signup));
+route.post("/login", asyncMiddleware(login));
+route.post("/logout", asyncMiddleware(logout));
 
-route.get("/check", protectRoute, checkAuth);
+route.get("/check", asyncMiddleware(protectRoute), asyncMiddleware(checkAuth));
 
-route.post("/updateProfileImg", protectRoute, updateProfile);
+route.post("/updateProfileImg", asyncMiddleware(protectRoute), asyncMiddleware(updateProfile));
 
 export default route;

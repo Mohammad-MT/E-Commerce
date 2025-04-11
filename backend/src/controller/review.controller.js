@@ -2,7 +2,7 @@ import { Review, addReviewValidationSchema } from "../models/review.model.js";
 import { User } from "../models/user.model.js";
 
 export const createReview = async (req, res) => {
-  try {
+  
     const { error, value } = addReviewValidationSchema(req.body);
     if (error) {
       return res.status(400).json({ message: error.details[0].message });
@@ -35,28 +35,22 @@ export const createReview = async (req, res) => {
     });
     await newReview.save();
     res.status(201).json(newReview);
-  } catch (error) {
-    console.log("Error in createReview review.controller", error.message);
-    res.status(500).json({ message: "Server Error" });
-  }
+  
 };
 
 export const getProductReviews = async (req, res) => {
-  try {
+ 
     const review = await Review.find({ productId: req.params.productId });
     if (!review) {
       return res.status(404).json({ message: "Review not found" });
     }
 
     res.json(review);
-  } catch (error) {
-    console.log("Error in getReviews review.controller", error.message);
-    res.status(500).json({ message: "Server Error" });
-  }
+  
 };
 
 export const updateReview = async (req, res) => {
-  try {
+  
     const { error, value } = addReviewValidationSchema(req.body);
     if (error) {
       return res.status(400).json({ message: error.details[0].message });
@@ -73,14 +67,11 @@ export const updateReview = async (req, res) => {
 
     await review.save();
     res.json(review);
-  } catch (error) {
-    console.log("Error in updateReview review.controller", error.message);
-    res.status(500).json({ message: "Server Error" });
-  }
+  
 };
 
 export const deleteReview = async (req, res) => {
-  try {
+ 
     const review = await Review.findById(req.params.id);
     if (!review) {
       return res.status(404).json({ message: "Review not found" });
@@ -88,8 +79,5 @@ export const deleteReview = async (req, res) => {
 
     await review.deleteOne();
     res.json({ message: "Review deleted successfully" });
-  } catch (error) {
-    console.log("Error in deleteReview review.controller", error.message);
-    res.status(500).json({ message: "Server Error" });
-  }
+  
 };
