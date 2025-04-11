@@ -25,32 +25,32 @@ router.get("/discount/limitoffer", asyncMiddleware(getDiscountedProducts));
 //admin routes
 router.post(
   "/",
-  asyncMiddleware(protectRoute),
+  protectRoute,
   authorizeRole("admin"),
   asyncMiddleware(createProduct)
 );
 router.put(
   "/:id",
-  asyncMiddleware(protectRoute),
+  protectRoute,
   authorizeRole("admin"),
   asyncMiddleware(updateProduct)
 );
 router.delete(
   "/:id",
-  asyncMiddleware(protectRoute),
+  protectRoute,
   authorizeRole("admin"),
   asyncMiddleware(deleteProduct)
 );
 router.post(
   "/uploadImage",
-  asyncMiddleware(protectRoute),
+  protectRoute,
   authorizeRole("admin"),
   upload.single("productImage"),
   asyncMiddleware(uploadProductImage)
 );
 router.post(
   "/discount/:productId",
-  asyncMiddleware(protectRoute),
+  protectRoute,
   authorizeRole("admin"),
   asyncMiddleware(applyDiscountToProduct)
 );

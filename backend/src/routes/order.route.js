@@ -10,15 +10,25 @@ import {
 import protectRoute from "../middleware/protectRoute.js";
 import authorizeRole from "../middleware/authorizeRole.js";
 
-import asyncMiddleware from "../middleware/async.js"
+import asyncMiddleware from "../middleware/async.js";
 
 const router = express.Router();
 
-router.post("/", asyncMiddleware(protectRoute), asyncMiddleware(createOrder));
-router.get("/my-orders", asyncMiddleware(protectRoute), asyncMiddleware(getUserOrders));
-router.get("/", asyncMiddleware(protectRoute), authorizeRole("admin"), asyncMiddleware(getAllOrders));
-// router.get("/:id", asyncMiddleware(protectRoute), authorizeRole("admin"), asyncMiddleware(getOrder));
-router.put("/:id", asyncMiddleware(protectRoute), authorizeRole("admin"), asyncMiddleware(updateOrderStatus));
-router.delete("/:id", asyncMiddleware(protectRoute), authorizeRole("admin"), (deleteOrder));
+router.post("/", protectRoute, asyncMiddleware(createOrder));
+router.get("/my-orders", protectRoute, asyncMiddleware(getUserOrders));
+router.get(
+  "/",
+  protectRoute,
+  authorizeRole("admin"),
+  asyncMiddleware(getAllOrders)
+);
+// router.get("/:id", protectRoute, authorizeRole("admin"), asyncMiddleware(getOrder));
+router.put(
+  "/:id",
+  protectRoute,
+  authorizeRole("admin"),
+  asyncMiddleware(updateOrderStatus)
+);
+router.delete("/:id", protectRoute, authorizeRole("admin"), deleteOrder);
 
 export default router;

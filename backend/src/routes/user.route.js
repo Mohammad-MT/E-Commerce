@@ -15,8 +15,8 @@ route.post("/signup", asyncMiddleware(signup));
 route.post("/login", asyncMiddleware(login));
 route.post("/logout", asyncMiddleware(logout));
 
-route.get("/check", asyncMiddleware(protectRoute), asyncMiddleware(checkAuth));
+route.get("/check", protectRoute, asyncMiddleware(checkAuth));
 
-route.post("/updateProfileImg", asyncMiddleware(protectRoute), asyncMiddleware(updateProfile));
+route.post("/updateProfileImg", protectRoute, asyncMiddleware(updateProfile));
 
 export default route;

@@ -10,8 +10,8 @@ import asyncMiddleware from "../middleware/async.js";
 
 const router = express.Router();
 
-router.get("/", asyncMiddleware(protectRoute), asyncMiddleware(getCart));
-router.post("/", asyncMiddleware(protectRoute), asyncMiddleware(updateCart));
-router.delete("/", asyncMiddleware(protectRoute), asyncMiddleware(clearCart));
+router.get("/", protectRoute, asyncMiddleware(getCart));
+router.post("/", protectRoute, asyncMiddleware(updateCart));
+router.delete("/", protectRoute, asyncMiddleware(clearCart));
 
 export default router;
