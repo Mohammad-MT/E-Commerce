@@ -7,6 +7,8 @@ import path from "path";
 
 import connectToMongoDB from "./db/connectToMongoDB.js";
 
+import logger from "./utils/logger.js";
+
 import authRoute from "./routes/user.route.js";
 import productsRoute from "./routes/products.route.js";
 import orderRoutes from "./routes/order.route.js";
@@ -43,6 +45,12 @@ app.use(
     },
   })
 );
+
+//log every req route path
+app.use((req, res, next) => {
+  logger.info(`${req.method} ${req.url}`);
+  next();
+});
 
 app.use("/api/users/", authRoute);
 app.use("/api/products/", productsRoute);
