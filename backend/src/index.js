@@ -8,6 +8,7 @@ import path from "path";
 import connectToMongoDB from "./db/connectToMongoDB.js";
 
 import logger from "./utils/logger.js";
+import morgan from "morgan";
 
 import authRoute from "./routes/user.route.js";
 import productsRoute from "./routes/products.route.js";
@@ -46,11 +47,8 @@ app.use(
   })
 );
 
-//log every req route path
-app.use((req, res, next) => {
-  logger.info(`${req.method} ${req.url}`);
-  next();
-});
+// HTTP Request Logging
+app.use(morgan("combined"));
 
 app.use("/api/users/", authRoute);
 app.use("/api/products/", productsRoute);
