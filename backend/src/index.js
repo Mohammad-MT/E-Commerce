@@ -25,6 +25,18 @@ dotenv.config();
 
 const PORT = process.env.PORT_SERVER || 3000;
 
+process.on("uncaughtException", (error) => {
+  console.log("WE GOT AN UNCAUGHT EXCEPTION");
+  logger.error(error.message, error);
+  process.exit(1);
+});
+
+process.on("unhandledRejection", (error) => {
+  console.log("WE GOT AN UNHANDELED REJECTION");
+  logger.error(error.message, error);
+  process.exit(1);
+});
+
 app.use(express.json());
 app.use(cookieParser());
 app.use(
