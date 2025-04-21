@@ -1,16 +1,16 @@
-import express from "express";
+const express = require("express");
 
-import {
+const {
   createReview,
   getProductReviews,
   deleteReview,
   updateReview,
-} from "../controller/review.controller.js";
+} = require("../controller/review.controller.js");
 
-import protectRoute from "../middleware/protectRoute.js";
-import authorizeRole from "../middleware/authorizeRole.js";
+const protectRoute = require("../middleware/protectRoute.js");
+const authorizeRole = require("../middleware/authorizeRole.js");
 
-import asyncMiddleware from "../middleware/async.js";
+const asyncMiddleware = require("../middleware/async.js");
 
 const router = express.Router();
 
@@ -29,4 +29,4 @@ router.delete(
   asyncMiddleware(deleteReview)
 );
 
-export default router;
+module.exports = router;

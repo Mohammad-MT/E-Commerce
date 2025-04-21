@@ -1,12 +1,11 @@
-import express from "express";
-import {
+const express = require("express");
+const {
   addNewCategory,
   getAllCategories,
-} from "../controller/category.controller.js";
-import protectRoute from "../middleware/protectRoute.js";
-import authorizeRole from "../middleware/authorizeRole.js";
-
-import asyncMiddleware from "../middleware/async.js";
+} = require("../controller/category.controller.js");
+const protectRoute = require("../middleware/protectRoute.js");
+const authorizeRole = require("../middleware/authorizeRole.js");
+const asyncMiddleware = require("../middleware/async.js");
 
 const router = express.Router();
 
@@ -18,4 +17,4 @@ router.post(
   asyncMiddleware(addNewCategory)
 );
 
-export default router;
+module.exports = router;

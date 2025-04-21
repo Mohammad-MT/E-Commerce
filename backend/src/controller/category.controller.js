@@ -1,6 +1,6 @@
-import { Category } from "../models/category.model.js";
+const { Category } = require("../models/category.model.js");
 
-export const getAllCategories = async (req, res) => {
+const getAllCategories = async (req, res) => {
   const categories = await Category.find();
 
   if (categories.length >= 1) {
@@ -10,7 +10,7 @@ export const getAllCategories = async (req, res) => {
   res.status(404).json({ message: "categories not found!" });
 };
 
-export const addNewCategory = async (req, res) => {
+const addNewCategory = async (req, res) => {
   const { name } = req.body;
   if (!name)
     return res
@@ -27,6 +27,6 @@ export const addNewCategory = async (req, res) => {
   } else {
     return res.status(400).json({ message: "Invalid category" });
   }
-
-  res.status(404).json({ message: "categories not found!" });
 };
+
+module.exports = { getAllCategories, addNewCategory };

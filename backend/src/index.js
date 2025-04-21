@@ -1,24 +1,24 @@
-import express from "express";
-import dotenv from "dotenv";
-import cookieParser from "cookie-parser";
-import cors from "cors";
-import helmet from "helmet";
-import path from "path";
+const express = require("express");
+const dotenv = require("dotenv");
+const cookieParser = require("cookie-parser");
+const cors = require("cors");
+const helmet = require("helmet");
+const path = require("path");
 
-import connectToMongoDB from "./db/connectToMongoDB.js";
+const connectToMongoDB = require("./db/connectToMongoDB.js");
 
-import logger from "./utils/logger.js";
-import morgan from "morgan";
+const logger = require("./utils/logger.js");
+const morgan = require("morgan");
 
-import authRoute from "./routes/user.route.js";
-import productsRoute from "./routes/products.route.js";
-import orderRoutes from "./routes/order.route.js";
-import categoryRoutes from "./routes/category.route.js";
-import reviewRoutes from "./routes/review.route.js";
-import cartRoutes from "./routes/cart.route.js";
-import errorHandler from "./middleware/error.js";
+const authRoute = require("./routes/user.route.js");
+const productsRoute = require("./routes/products.route.js");
+const orderRoutes = require("./routes/order.route.js");
+const categoryRoutes = require("./routes/category.route.js");
+const reviewRoutes = require("./routes/review.route.js");
+const cartRoutes = require("./routes/cart.route.js");
+const errorHandler = require("./middleware/error.js");
 
-const __dirname = path.resolve();
+const dirname = path.resolve();
 
 const app = express();
 dotenv.config();
@@ -72,13 +72,13 @@ app.use("/api/reviews/", reviewRoutes);
 app.use(errorHandler);
 
 // Middleware for serving static img files
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+app.use("/uploads", express.static(path.join(dirname, "uploads")));
 
 if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "../frontend/dist")));
+  app.use(express.static(path.join(dirname, "../frontend/dist")));
 
   app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "../frontend", "dist", "index.html"));
+    res.sendFile(path.join(dirname, "../frontend", "dist", "index.html"));
   });
 }
 

@@ -1,7 +1,7 @@
-import { Cart, validateCart } from "../models/cart.model.js";
+const { Cart, validateCart } = require("../models/cart.model.js");
 
 // Get cart for logged-in user
-export const getCart = async (req, res) => {
+const getCart = async (req, res) => {
   // Check if user is logged in
   if (!req.user) return res.status(401).json({ message: "Unauthorized" });
 
@@ -16,7 +16,7 @@ export const getCart = async (req, res) => {
 };
 
 // Update cart (Add or Remove items)
-export const updateCart = async (req, res) => {
+const updateCart = async (req, res) => {
   const { error, value } = validateCart(req.body);
   if (error) return res.status(400).json({ message: error.details[0].message });
 
@@ -33,7 +33,9 @@ export const updateCart = async (req, res) => {
 };
 
 // Clear cart after checkout
-export const clearCart = async (req, res) => {
+const clearCart = async (req, res) => {
   await Cart.findOneAndDelete({ userId: req.user.id });
   res.json({ message: "Cart cleared" });
 };
+
+module.exports = { getCart, updateCart, clearCart };

@@ -1,10 +1,10 @@
-import {
+const {
   Product,
   productValidationSchemaForEdit,
   productValidationSchema,
-} from "../models/product.model.js";
+} = require("../models/product.model.js");
 
-export const getSortedPaginatedProducts = async (req, res) => {
+const getSortedPaginatedProducts = async (req, res) => {
   const page = parseInt(req.query.page) || 1;
   const limit = parseInt(req.query.limit) || 10;
   const skip = (page - 1) * limit;
@@ -55,7 +55,7 @@ export const getSortedPaginatedProducts = async (req, res) => {
   });
 };
 
-export const getAllProducts = async (req, res) => {
+const getAllProducts = async (req, res) => {
   const products = await Product.find();
 
   res.json({
@@ -63,7 +63,7 @@ export const getAllProducts = async (req, res) => {
   });
 };
 
-export const getProductById = async (req, res) => {
+const getProductById = async (req, res) => {
   const { id } = req.params;
 
   const product = await Product.findById(id);
@@ -74,7 +74,7 @@ export const getProductById = async (req, res) => {
   res.json(product);
 };
 
-export const createProduct = async (req, res) => {
+const createProduct = async (req, res) => {
   //validation
   const { value, error } = productValidationSchema(req.body);
   if (error) return res.status(400).json({ message: error.details[0].message });
@@ -101,7 +101,7 @@ export const createProduct = async (req, res) => {
     product: newProduct,
   });
 };
-export const deleteProduct = async (req, res) => {
+const deleteProduct = async (req, res) => {
   const { id } = req.params;
 
   //remove by id
@@ -116,7 +116,7 @@ export const deleteProduct = async (req, res) => {
   res.status(200).json({ message: "selected product remove successfully." });
 };
 
-export const updateProduct = async (req, res) => {
+const updateProduct = async (req, res) => {
   //validation
   const { value, error } = productValidationSchemaForEdit(req.body);
   if (error) return res.status(400).json({ message: error.details[0].message });
@@ -137,17 +137,16 @@ export const updateProduct = async (req, res) => {
   res.json({ message: "Product updated successfully", product });
 };
 
-export const uploadProductImage = async (req, res) => {
- 
-    if (!req.file || !req.file.path) {
-      return res.status(400).json({ message: "No file uploaded" });
-    }
+const uploadProductImage = async (req, res) => {
+  if (!req.file || !req.file.path) {
+    return res.status(400).json({ message: "No file uploaded" });
+  }
 
-    res.json({ imageUrl: req.file.path }); //cloudinary image url
+  res.json({ imageUrl: req.file.path }); //cloudinary image url
 };
 
 //admin route access *
-export const applyDiscountToProduct = async (req, res) => {
+const applyDiscountToProduct = async (req, res) => {
   const { discountType, discountValue } = req.body;
 
   const product = await Product.findById(req.params.productId);
@@ -164,7 +163,7 @@ export const applyDiscountToProduct = async (req, res) => {
     .json({ message: "Discount applied successfully", data: product });
 };
 
-export const getDiscountedProducts = async (req, res) => {
+const getDiscountedProducts = async (req, res) => {
   const discountedProducts = await Product.find({
     discountType: { $exists: true },
     discountValue: { $gt: 0 },
@@ -175,4 +174,16 @@ export const getDiscountedProducts = async (req, res) => {
   }
 
   res.json({ data: discountedProducts });
+};
+
+module.exports = {
+  getSortedPaginatedProducts,
+  getAllProducts,
+  getProductById,
+  createProduct,
+  deleteProduct,
+  updateProduct,
+  uploadProductImage,
+  applyDiscountToProduct,
+  getDiscountedProducts,
 };

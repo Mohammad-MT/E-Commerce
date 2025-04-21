@@ -1,5 +1,5 @@
-import mongoose from "mongoose";
-import Joi from "joi";
+const mongoose = require("mongoose");
+const Joi = require("joi");
 
 const orderSchema = new mongoose.Schema(
   {
@@ -39,7 +39,7 @@ const orderSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-export const validateOrders = (order) => {
+const validateOrders = (order) => {
   const schema = Joi.object({
     userInfo: Joi.object({
       _id: Joi.string().required().messages({
@@ -103,4 +103,9 @@ export const validateOrders = (order) => {
   return schema.validate(order, { abortEarly: false });
 };
 
-export const Order = mongoose.model("Order", orderSchema);
+const Order = mongoose.model("Order", orderSchema);
+
+module.exports = {
+  Order,
+  validateOrders,
+};

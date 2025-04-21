@@ -1,13 +1,13 @@
-import express from "express";
-import {
+const express = require("express");
+const {
   login,
   logout,
   signup,
   checkAuth,
   updateProfile,
-} from "../controller/user.controller.js";
-import protectRoute from "../middleware/protectRoute.js";
-import asyncMiddleware from "../middleware/async.js";
+} = require("../controller/user.controller.js");
+const protectRoute = require("../middleware/protectRoute.js");
+const asyncMiddleware = require("../middleware/async.js");
 
 const route = express.Router();
 
@@ -19,4 +19,4 @@ route.get("/check", protectRoute, asyncMiddleware(checkAuth));
 
 route.post("/updateProfileImg", protectRoute, asyncMiddleware(updateProfile));
 
-export default route;
+module.exports = route;

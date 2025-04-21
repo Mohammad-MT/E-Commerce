@@ -1,5 +1,5 @@
-import mongoose from "mongoose";
-import Joi from "joi";
+const mongoose = require("mongoose");
+const Joi = require("joi");
 
 const cartSchema = new mongoose.Schema(
   {
@@ -22,9 +22,9 @@ const cartSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-export const Cart = mongoose.model("Cart", cartSchema);
+const Cart = mongoose.model("Cart", cartSchema);
 
-export const validateCart = (cart) => {
+const validateCart = (cart) => {
   const schema = Joi.object({
     items: Joi.array()
       .items(
@@ -38,3 +38,5 @@ export const validateCart = (cart) => {
 
   return schema.validate(cart);
 };
+
+module.exports = { Cart, validateCart };

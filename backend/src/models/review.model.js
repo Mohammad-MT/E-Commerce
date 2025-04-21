@@ -1,5 +1,5 @@
-import mongoose from "mongoose";
-import Joi from "joi";
+const mongoose = require("mongoose");
+const Joi = require("joi");
 
 const reviewSchema = new mongoose.Schema(
   {
@@ -20,9 +20,9 @@ const reviewSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-export const Review = mongoose.model("Review", reviewSchema);
+const Review = mongoose.model("Review", reviewSchema);
 
-export const addReviewValidationSchema = (newReview) => {
+const addReviewValidationSchema = (newReview) => {
   const schema = Joi.object({
     productId: Joi.string().required().messages({
       "any.required": "Product ID is required",
@@ -39,4 +39,9 @@ export const addReviewValidationSchema = (newReview) => {
   });
 
   return schema.validate(newReview);
+};
+
+module.exports = {
+  Review,
+  addReviewValidationSchema,
 };

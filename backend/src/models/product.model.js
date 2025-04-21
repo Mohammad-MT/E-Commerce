@@ -1,5 +1,5 @@
-import mongoose from "mongoose";
-import Joi from "joi";
+const mongoose = require("mongoose");
+const Joi = require("joi");
 
 const productSchema = new mongoose.Schema(
   {
@@ -43,9 +43,9 @@ productSchema.pre("save", function (next) {
   next();
 });
 
-export const Product = mongoose.model("Product", productSchema);
+const Product = mongoose.model("Product", productSchema);
 
-export const productValidationSchema = (newProduct) => {
+const productValidationSchema = (newProduct) => {
   const schema = Joi.object({
     name: Joi.string().max(80).required().messages({
       "any.required": "Name is required",
@@ -79,7 +79,8 @@ export const productValidationSchema = (newProduct) => {
   });
   return schema.validate(newProduct);
 };
-export const productValidationSchemaForEdit = (newProduct) => {
+
+const productValidationSchemaForEdit = (newProduct) => {
   const schema = Joi.object({
     name: Joi.string().max(80).required().messages({
       "any.required": "Name is required",
@@ -108,4 +109,10 @@ export const productValidationSchemaForEdit = (newProduct) => {
       }),
   });
   return schema.validate(newProduct);
+};
+
+module.exports = {
+  Product,
+  productValidationSchema,
+  productValidationSchemaForEdit,
 };

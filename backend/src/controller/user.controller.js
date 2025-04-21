@@ -1,14 +1,14 @@
-import bcrypt from "bcryptjs";
-import cloudinary from "../utils/cloudinary.js";
+const bcrypt = require("bcryptjs");
+const cloudinary = require("../utils/cloudinary.js");
 
-import {
+const {
   singupValidation,
   loginValidation,
   User,
-} from "../models/user.model.js";
-import generateToken from "../utils/generateToken.js";
+} = require("../models/user.model.js");
+const generateToken = require("../utils/generateToken.js");
 
-export const signup = async (req, res) => {
+const signup = async (req, res) => {
   //validation
   const { value, error } = singupValidation(req.body);
   if (error) return res.status(400).json({ message: error.details[0].message });
@@ -58,7 +58,7 @@ export const signup = async (req, res) => {
   }
 };
 
-export const login = async (req, res) => {
+const login = async (req, res) => {
   //validate
   const { value, error } = loginValidation(req.body);
   if (error) return res.status(400).json({ message: error.details[0].message });
@@ -88,16 +88,16 @@ export const login = async (req, res) => {
   });
 };
 
-export const logout = async (req, res) => {
+const logout = async (req, res) => {
   res.cookie("jwt", "", { maxAge: 0 });
   res.status(200).json({ message: "Logged  out successfully !" });
 };
 
-export const checkAuth = (req, res) => {
+const checkAuth = (req, res) => {
   res.status(200).json(req.user);
 };
 
-export const updateProfile = async (req, res) => {
+const updateProfile = async (req, res) => {
   const userId = req.user._id;
 
   //** multer way dosen't work with read only filesystem hosts **//
@@ -119,3 +119,5 @@ export const updateProfile = async (req, res) => {
 
   res.status(200).json(updatedUser);
 };
+
+module.exports = { signup, login, logout, checkAuth, updateProfile };

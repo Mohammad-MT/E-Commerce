@@ -1,10 +1,10 @@
-import { Order } from "../models/order.model.js";
-import { Product } from "../models/product.model.js";
+const { Order } = require("../models/order.model.js");
+const { Product } = require("../models/product.model.js");
 
-import { validateOrders } from "../models/order.model.js";
+const { validateOrders } = require("../models/order.model.js");
 
 // Create a New Order
-export const createOrder = async (req, res) => {
+const createOrder = async (req, res) => {
   const { value, error } = validateOrders(req.body);
   if (error) return res.status(400).json({ message: error.details[0].message });
 
@@ -34,13 +34,13 @@ export const createOrder = async (req, res) => {
 };
 
 // Get User Orders
-export const getUserOrders = async (req, res) => {
+const getUserOrders = async (req, res) => {
   const orders = await Order.find({ "userInfo._id": req.user.id });
   res.json(orders);
 };
 
 // // Get Single Order
-// export const getOrder = async (req, res) => {
+// const getOrder = async (req, res) => {
 //     const order = await Order.findById(req.params.id);
 //     if (!order) return res.status(404).json({ message: "Order not found" });
 
@@ -48,13 +48,13 @@ export const getUserOrders = async (req, res) => {
 // };
 
 // Get All Orders (Admin Only)
-export const getAllOrders = async (req, res) => {
+const getAllOrders = async (req, res) => {
   const orders = await Order.find().populate("userInfo", "name email");
   res.json(orders);
 };
 
 // Update Order Status (Admin Only)
-export const updateOrderStatus = async (req, res) => {
+const updateOrderStatus = async (req, res) => {
   const order = await Order.findById(req.params.id);
   if (!order) return res.status(404).json({ message: "Order not found" });
 
@@ -65,9 +65,17 @@ export const updateOrderStatus = async (req, res) => {
 };
 
 // Delete Order (Admin Only)
-export const deleteOrder = async (req, res) => {
+const deleteOrder = async (req, res) => {
   const order = await Order.findOneAndDelete(req.params.id);
   if (!order) return res.status(404).json({ message: "Order not found" });
 
   res.json({ message: "Order deleted" });
+};
+
+module.exports = {
+  createOrder,
+  getUserOrders,
+  getAllOrders,
+  updateOrderStatus,
+  deleteOrder,
 };

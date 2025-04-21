@@ -1,7 +1,7 @@
 // logger.js
-import winston from "winston";
-import "winston-mongodb";
-import dotenv from "dotenv";
+const winston = require("winston");
+require("winston-mongodb");
+const dotenv = require("dotenv");
 
 dotenv.config();
 
@@ -30,4 +30,4 @@ if (process.env.NODE_ENV !== "production") {
   );
 }
 
-export default logger;
+module.exports = logger;

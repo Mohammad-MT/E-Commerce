@@ -1,5 +1,5 @@
-import mongoose from "mongoose";
-import Joi from "joi";
+const mongoose = require("mongoose");
+const Joi = require("joi");
 
 const userSchema = new mongoose.Schema(
   {
@@ -44,9 +44,9 @@ const userSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-export const User = mongoose.model("User", userSchema);
+const User = mongoose.model("User", userSchema);
 
-export const loginValidation = (newUser) => {
+const loginValidation = (newUser) => {
   const schema = Joi.object({
     username: Joi.string().required().messages({
       "any.required": "Username is required",
@@ -60,7 +60,7 @@ export const loginValidation = (newUser) => {
   return schema.validate(newUser);
 };
 
-export const singupValidation = (newUser) => {
+const singupValidation = (newUser) => {
   const schema = Joi.object({
     email: Joi.string().email().required().messages({
       "string.email": "Please enter a valid email address",
@@ -78,4 +78,10 @@ export const singupValidation = (newUser) => {
     }),
   });
   return schema.validate(newUser);
+};
+
+module.exports = {
+  User,
+  loginValidation,
+  singupValidation,
 };

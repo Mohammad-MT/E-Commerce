@@ -1,7 +1,7 @@
 {
   "name": "e-commerce",
   "version": "1.0.0",
-  "type": "module",
+  "type": "commonjs",
   "description": "e-commerce shop ",
   "main": "src/index.js",
   "scripts": {
